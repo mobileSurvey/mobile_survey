@@ -41,7 +41,7 @@ class Controller{
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
                 if(hasil.role=="Admin"){
-                    req.session.accesstoken= accesstoken;
+                    req.session= data;
                     req.session.save()
                 }
                 else if(hasil.role=="Masyarakat"){
