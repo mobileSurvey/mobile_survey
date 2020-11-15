@@ -26,6 +26,21 @@ class Controller{
          
         
       }
+
+      static list(req,res){
+        const{id}=req.params
+        jenis.findAll({
+            where:{
+                id :id
+            }
+        },{returning:true})
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
     
     
     static update(req,res){
