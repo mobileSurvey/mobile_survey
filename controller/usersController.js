@@ -57,6 +57,38 @@ class Controller{
             res.json({message : err})
         })
     }
+
+    static loginAdmin(req,res){
+        const{username,password}= req.body
+
+        usersModel.findAll({
+            where:{
+                username:username
+            },attributes: ['password']
+        })
+        .then(data=>{
+            if(data.length){
+        let hasil =  bcrypt.compare(password, data[0].dataValues.password);
+        if(hasil){
+            if(data[0].role=="Admin"){
+                req.session= data;
+                req.session.save()
+                res.redirect('/dashboard');
+            }else{
+                res.render('login', {message: "Role Bukan Admin"})
+            }
+        } else{
+            res.render('login', {message: "password salah"});
+                }
+            }
+            else{
+                res.render('login', {message: "username tidak terdaftar"});
+            }
+        })
+        .catch(err=>{
+            res.json({message : err})
+        })
+    }
     
     static list(req,res){
         const{id}=req.params

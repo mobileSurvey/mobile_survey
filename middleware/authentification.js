@@ -16,7 +16,8 @@ function authentificationAdmin(req,res,next){
             next()
         }
         else{
-            res.json({status : 400,message :"bukanAdmin" })
+            // res.json({status : 400,message :"bukanAdmin" });
+            res.render('dashboard', {message: "Bukan Surveyor"})
         }
     })
     .catch(err=>{
@@ -25,7 +26,7 @@ function authentificationAdmin(req,res,next){
     })
 }
 
-function authentificationMasyarakat(req,res,next){
+function authentificationSurveyor(req,res,next){
     
     
     const decode = verifyToken(req.headers.accesstoken)
@@ -35,11 +36,12 @@ function authentificationMasyarakat(req,res,next){
            }
        })
        .then(data=>{
-           if(data.role=="Masyarakat"){ 
+           if(data.role=="Surveyor"){ 
                next()
            }
            else{
-               res.json({status : 400,message :"Bukan Masyarakat" })
+               res.json({status : 400,message :"Bukan Surveyor" })
+            
            }
        })
        .catch(err=>{
@@ -48,4 +50,4 @@ function authentificationMasyarakat(req,res,next){
        })
    }
 
-module.exports = {authentificationAdmin,authentificationMasyarakat}
+module.exports = {authentificationAdmin,authentificationSurveyor}
