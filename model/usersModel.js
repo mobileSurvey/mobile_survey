@@ -14,6 +14,10 @@ const Users = sq.define('Users',{
     password:{
         type:DataTypes.STRING,
         defaultValue:''
+    },
+    role :{
+        type:DataTypes.STRING,
+        defaultValue:""
     }
     
 },

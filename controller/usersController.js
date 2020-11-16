@@ -40,11 +40,11 @@ class Controller{
         .then(data=>{
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
-                if(hasil.role=="Admin"){
+                if(data.role=="Admin" && hasil){
                     req.session= data;
                     req.session.save()
                 }
-                else if(hasil.role=="Masyarakat"){
+                else if(data.role=="Masyarakat" && hasil){
                     res.json({accesstoken : jwt.generateToken(data[0].dataValues)})
                   }
                 else{
