@@ -35,16 +35,19 @@ class Controller{
         usersModel.findAll({
             where:{
                 username:username
-            },attributes: ['password']
+            }
         })
         .then(data=>{
+            console.log(data[0].dataValues)
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
-                if(data.role=="Admin" && hasil){
-                    req.session= data;
+                if(data[0].dataValues.role=="Admin" && hasil){
+                  
+                    req.session.user= data[0].dataValues;
                     req.session.save()
+                    res.json("sukses")
                 }
-                else if(data.role=="Masyarakat" && hasil){
+                else if(data[0].dataValues.role=="Masyarakat" && hasil){
                     res.json({accesstoken : jwt.generateToken(data[0].dataValues)})
                   }
                 else{
@@ -52,6 +55,38 @@ class Controller{
                 }
             }
             else{res.json({message :"username tidak terdaftar"})}
+        })
+        .catch(err=>{
+            res.json({message : err})
+        })
+    }
+
+    static loginAdmin(req,res){
+        const{username,password}= req.body
+
+        usersModel.findAll({
+            where:{
+                username:username
+            },attributes: ['password']
+        })
+        .then(data=>{
+            if(data.length){
+        let hasil =  bcrypt.compare(password, data[0].dataValues.password);
+        if(hasil){
+            if(data[0].role=="Admin"){
+                req.session= data;
+                req.session.save()
+                res.redirect('/dashboard');
+            }else{
+                res.render('login', {message: "Role Bukan Admin"})
+            }
+        } else{
+            res.render('login', {message: "password salah"});
+                }
+            }
+            else{
+                res.render('login', {message: "username tidak terdaftar"});
+            }
         })
         .catch(err=>{
             res.json({message : err})
