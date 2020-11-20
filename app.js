@@ -11,8 +11,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cors())
 app.set('view engine', 'ejs');
-app.use(express.static('aset'));
-app.set('view engine', 'ejs');
+app.use(express.static('assets'));
 
 
 app.use(session({
