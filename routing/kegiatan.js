@@ -9,5 +9,6 @@ router.post('/create', controller.create)
 router.post('/list:id',controller.list)
 router.post('/update',controller.update)
 router.delete('/delete/:id',controller.delete)
+router.post('/excel',controller.insertExcel)
 
 module.exports=router

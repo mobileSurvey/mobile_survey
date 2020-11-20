@@ -44,6 +44,16 @@ const kegiatan = sq.define('kegiatan',{
     jenisAnggaran:{
         type:DataTypes.STRING,
         defaultValue:""
+    },
+    tahun:{
+        type:DataTypes.DATE
+    },
+    approval:{
+        type:DataTypes.INTEGER,
+        defaultValue:0
+    },
+    Shape:{
+        type:DataTypes.GEOMETRY
     }
     
 },
