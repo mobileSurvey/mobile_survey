@@ -1,6 +1,11 @@
 const router = require('express').Router()
 const controller = require('../controller/usersController')
 
+router.get('/list', controller.listAll)
+router.get('/insert',controller.insert)
+router.get('/edit/:id',controller.edit)
+
+
 
 router.post('/register', controller.register)
 router.post('/login',controller.login)

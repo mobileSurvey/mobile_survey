@@ -6,6 +6,19 @@ const jwt = require('../helper/jwt')
 
 class Controller{
 
+
+    static listAll(req, res){
+        res.render('dashboard');    
+       }
+
+    static insert(req, res){
+       res.render('dashboard');    
+      }
+
+      static edit(req, res){
+        res.render('dashboard');    
+       }
+
     static register(req, res){
         const {username,password,nama,role}= req.body
         let encryptedPassword = bcrypt.hashPassword(password)
