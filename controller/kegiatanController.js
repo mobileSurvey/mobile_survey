@@ -1,6 +1,17 @@
 const kegiatan = require('../model/kegiatanModel')
 
 class Controller{
+    static listAll(req, res){
+      res.render('content-backoffice/kegiatan/list');    
+    }
+
+    static insert(req, res){
+      res.render('content-backoffice/kegiatan/insert');       
+    }
+
+    static edit(req, res){
+      res.render('content-backoffice/kegiatan/edit');    
+    }
 
     static create(req, res){
         kegiatan.findAll({

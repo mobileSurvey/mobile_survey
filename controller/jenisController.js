@@ -3,7 +3,18 @@ const jenis = require('../model/jenisModel')
 
 
 class Controller{
+    static listAll(req, res){
+      res.render('content-backoffice/masterJenis/list');    
+    }
 
+    static insert(req, res){
+      res.render('content-backoffice/masterJenis/insert');       
+    }
+
+    static edit(req, res){
+      res.render('content-backoffice/masterJenis/edit');    
+    }
+    
     static create(req, res){
         const {tipe}= req.body
         jenis.findAll({
