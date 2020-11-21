@@ -1,6 +1,18 @@
 const kegiatan = require('../model/kegiatanModel')
+const importExcel= require('convert-excel-to-json')
 
 class Controller{
+    static listAll(req, res){
+      res.render('content-backoffice/kegiatan/list');    
+    }
+
+    static insert(req, res){
+      res.render('content-backoffice/kegiatan/insert');       
+    }
+
+    static edit(req, res){
+      res.render('content-backoffice/kegiatan/edit');    
+    }
 
     static create(req, res){
         kegiatan.findAll({
@@ -77,6 +89,40 @@ class Controller{
             res.json(err)
         })
     }
+
+    static insertExcel(req,res){
+      
+        let file = req.files.excelFile;
+        let namafile = Date.now() + file.name
+        
+
+        file.mv('./assets/excel/'+namafile,(async err=>{
+            if(err){
+                res.json(err)
+            }
+            else{
+                let result =  await importExcel({
+                    sourceFile :'./assets/excel/'+namafile,
+                    header     :   {rows:1},
+                    columnToKey:{A:'kegiatanPrioritas',B:'lokasi',C:'volume',D:'APBD',E:'DAUT',         F:'alokasiDanaKelurahan',G:'pelaksana',H:'kesesuaian',I:'keterangan',J:'jenisAnggaran'},
+                    sheets :['Sheet1']
+                    
+                });
+                
+                kegiatan.bulkCreate(result.Sheet1,{returning:true})
+                .then(data=>{
+                    res.json("input data sukses")
+                })
+                .catch(err=>{
+                    res.json(err)
+                })
+                
+                
+            }
+        }))
+    }
+
+
 
 }
 

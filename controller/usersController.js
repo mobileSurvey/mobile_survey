@@ -8,15 +8,15 @@ class Controller{
 
 
     static listAll(req, res){
-        res.render('dashboard');    
+        res.render('content-backoffice/user/list');    
        }
 
     static insert(req, res){
-       res.render('dashboard');    
+       res.render('content-backoffice/user/insert');    
       }
 
       static edit(req, res){
-        res.render('dashboard');    
+        res.render('content-backoffice/user/edit');    
        }
 
     static register(req, res){

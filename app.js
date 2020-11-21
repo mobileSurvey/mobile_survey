@@ -4,8 +4,9 @@ const routing = require('./routing/index')
 const cors = require('cors')
 const app = express()
 const session = require('express-session')
+const upload = require('express-fileupload')
 
-
+app.use(upload())
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())

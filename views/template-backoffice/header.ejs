@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/backoffice/shortcut_icon.ico" type="image/png">
+    <!-- Core CSS Backoffice -->
+    <title></title>
+    <link href="/stylesheets/backoffice/style.css" rel="stylesheet">
+    <link href="/stylesheets/backoffice/theme.css" rel="stylesheet">
+    <link href="/stylesheets/backoffice/ui.css" rel="stylesheet">
+    <!-- End core CSS Backoffice -->
+
+    <!-- Custom CSS Backoffice -->
+    <link href="/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="/plugins/datatables/dataTables.css" rel="stylesheet">
+    <link href="/plugins/step-form-wizard/css/step-form-wizard.min.css" rel="stylesheet">
+    <!-- End Custom CSS Backoffice -->
+
+    <!-- Core JS Backoffice -->
+    <script src="/plugins/jquery/jquery-1.11.1.min.js"></script>
+    <script src="/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/plugins/jquery-ui/jquery-ui-1.11.2.min.js"></script>
+    <script src="/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <!-- End core JS Backoffice -->
+
+    <style type="text/css">
+      .table thead{
+        background-color: #F0F4F8;
+      }
+
+      .table .list-inline li a{
+        margin-right: 0px;
+      }
+
+      .table .list-inline .separator{
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+
+      .table-no-border .table-bordered > thead > tr > th, 
+      .table-no-border .table-bordered > tbody > tr > th, 
+      .table-no-border .table-bordered > tfoot > tr > th, 
+      .table-no-border .table-bordered > thead > tr > td, 
+      .table-no-border .table-bordered > tbody > tr > td, 
+      .table-no-border .table-bordered > tfoot > tr > td{ 
+          border: hidden; 
+      }
+    </style>
+
+  </head>
+  <!-- LAYOUT: Apply "submenu-hover" class to body element to have sidebar submenu show on mouse hover -->
+  <!-- LAYOUT: Apply "sidebar-collapsed" class to body element to have collapsed sidebar -->
+  <!-- LAYOUT: Apply "sidebar-top" class to body element to have sidebar on top of the page -->
+  <!-- LAYOUT: Apply "sidebar-hover" class to body element to show sidebar only when your mouse is on left / right corner -->
+  <!-- LAYOUT: Apply "submenu-hover" class to body element to show sidebar submenu on mouse hover -->
+  <!-- LAYOUT: Apply "fixed-sidebar" class to body to have fixed sidebar -->
+  <!-- LAYOUT: Apply "fixed-topbar" class to body to have fixed topbar -->
+  <!-- LAYOUT: Apply "rtl" class to body to put the sidebar on the right side -->
+  <!-- LAYOUT: Apply "boxed" class to body to have your page with 1200px max width -->
+
+  <!-- THEME STYLE: Apply "theme-sdtl" for Sidebar Dark / Topbar Light -->
+  <!-- THEME STYLE: Apply  "theme sdtd" for Sidebar Dark / Topbar Dark -->
+  <!-- THEME STYLE: Apply "theme sltd" for Sidebar Light / Topbar Dark -->
+  <!-- THEME STYLE: Apply "theme sltl" for Sidebar Light / Topbar Light -->
+  
+  <!-- THEME COLOR: Apply "color-default" for dark color: #2B2E33 -->
+  <!-- THEME COLOR: Apply "color-primary" for primary color: #319DB5 -->
+  <!-- THEME COLOR: Apply "color-red" for red color: #C9625F -->
+  <!-- THEME COLOR: Apply "color-green" for green color: #18A689 -->
+  <!-- THEME COLOR: Apply "color-orange" for orange color: #B66D39 -->
+  <!-- THEME COLOR: Apply "color-purple" for purple color: #6E62B5 -->
+  <!-- THEME COLOR: Apply "color-blue" for blue color: #4A89DC -->
+  <!-- BEGIN BODY -->
+  <body class="fixed-topbar fixed-sidebar theme-sdtl color-primary" >
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <section>
+      <!-- BEGIN SIDEBAR -->
+      <div class="sidebar">
+        <div class="logopanel">
+          <h1>
+            <strong><center>Backoffice</center></strong>
+          </h1>
+        </div>
+        <div class="sidebar-inner">
+          <div class="sidebar-top p-15" style="border-bottom: 4px solid rgba(0,0,0,0.6)">
+            <div class="media">
+              <div class="media-left media media-middle">
+                <a href="#">
+                  <img class="media-object" src="/images/backoffice/80.png" style="width: 80px;">
+                </a>
+              </div>
+              <div class="media-body  media-middle">
+                <h5 class="media-heading" style="color: rgba(255,255,255,0.6);font-weight: 700">Bappeda Kota Salatiga</h5>
+              </div>
+            </div>
+          </div>
+          
+
+          <ul class="nav nav-sidebar">
+            <li><a href="/kegiatan/list"><i class="icon-layers"></i><span>Kegiatan Prioritas</span></a></li>
+            <li><a href="/importData/list"><i class="icon-layers"></i><span>Import</span></a></li>
+            <li class="nav-parent">  
+              <a href="#"><i class="icon-layers"></i><span>Master</span> <span class="fa arrow"></span></a>  
+              <ul class="children collapse">  
+                <li><a href="/jenis/list"><i class="icon-layers"></i><span>Jenis</span></a></li> 
+                <!-- <li><a href="#"><i class="icon-layers"></i><span>Dropdown 2</span></a></li>  -->
+              </ul>  
+            </li> 
+            <li><a href="/users/list"><i class="icon-user"></i><span>User</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- END SIDEBAR -->
+
+      <!--  BEGIN MAIN CONTENT -->
+      <div class="main-content">
+        <!-- BEGIN TOPBAR -->
+        <div class="topbar">
+          <div class="header-left">
+            <div class="topnav">
+              <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
+              <!-- <img src="/stylesheets/backoffice/images/logo/title.png" class="m-t-15 m-l-10"> -->
+            </div>
+          </div>
+          <div class="header-right">
+            <ul class="header-menu nav navbar-nav">
+              <!-- BEGIN USER DROPDOWN -->
+              <li class="dropdown" id="user-header">
+                <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img src="/images/backoffice/user.png" alt="user image">
+                    <span class="username">Hi,</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="/autentifikasi/logout"><i class="icon-logout"></i><span>Sign Out</span></a>
+                  </li>
+                </ul>
+              </li>
+              <!-- END USER DROPDOWN -->
+            </ul>
+          </div>
+          <!-- header-right -->
+        </div>
+        <!-- END TOPBAR -->
+   
