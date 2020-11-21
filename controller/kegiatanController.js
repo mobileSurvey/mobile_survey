@@ -1,5 +1,6 @@
 const kegiatan = require('../model/kegiatanModel')
 const importExcel= require('convert-excel-to-json')
+const del = require('del')
 
 class Controller{
     static listView(req, res){
@@ -123,6 +124,7 @@ class Controller{
                 
                 kegiatan.bulkCreate(result.Sheet1,{returning:true})
                 .then(data=>{
+                    del(['./assets/excel/'+namafile])
                     res.json("input data sukses")
                 })
                 .catch(err=>{
