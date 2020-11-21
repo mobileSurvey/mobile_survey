@@ -28,22 +28,13 @@ const kegiatan = sq.define('kegiatan',{
         type:DataTypes.STRING,
         defaultValue:""
     },
-    APBD:{
-        type:DataTypes.INTEGER
-    },
-    DAUT:{
-        type:DataTypes.INTEGER
-    },
-    alokasiDanaKelurahan:{
-        type:DataTypes.INTEGER
-    },
     pelaksana:{
         type:DataTypes.STRING,
         defaultValue:""
     },
     kesesuaian:{
-        type:DataTypes.STRING,
-        defaultValue:""
+        type:DataTypes.INTEGER,
+        defaultValue:0
     },
     keterangan:{
         type:DataTypes.STRING,
@@ -53,8 +44,12 @@ const kegiatan = sq.define('kegiatan',{
         type:DataTypes.STRING,
         defaultValue:""
     },
+     jumlahAnggaran:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
     tahun:{
-        type:DataTypes.DATE
+        type:DataTypes.INTEGER
     },
     approval:{
         type:DataTypes.INTEGER,

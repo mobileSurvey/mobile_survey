@@ -18,6 +18,10 @@ const Users = sq.define('Users',{
     role :{
         type:DataTypes.STRING,
         defaultValue:""
+    },
+    kelurahan:{
+        type:DataTypes.STRING,
+        defaultValue:""
     }
     
 },
