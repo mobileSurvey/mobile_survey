@@ -105,7 +105,7 @@ class Controller{
                 let result =  await importExcel({
                     sourceFile :'./assets/excel/'+namafile,
                     header     :   {rows:1},
-                    columnToKey:{A:'kegiatanPrioritas',B:'lokasi',C:'volume',D:'APBD',E:'DAUT',         F:'alokasiDanaKelurahan',G:'pelaksana',H:'kesesuaian',I:'keterangan',J:'jenisAnggaran'},
+                    columnToKey:{A:'kegiatanPrioritas',B:'lokasi',C:'volume',D:'APBD',E:'DAUT',         F:'alokasiDanaKelurahan',G:'pelaksana',H:'kesesuaian',I:'keterangan',J:'jenisAnggaran,',K:'tahun',L:'approval',M:'jenisId'},
                     sheets :['Sheet1']
                     
                 });
