@@ -2,7 +2,7 @@
 class Controller{
 
     static dashboard(req, res){
-       res.render('dashboard');    
+       res.render('content-backoffice/dashboard');    
       }
 
 

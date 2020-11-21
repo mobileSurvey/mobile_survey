@@ -13,6 +13,6 @@ router.use('/contoh',contoh)
 
 
 const {authentificationAdmin} = require('../middleware/authentification');
-router.get('/dashboard',authentificationAdmin, dashboard.dashboard);
+router.get('/dashboard', dashboard.dashboard);
 
 module.exports=router
