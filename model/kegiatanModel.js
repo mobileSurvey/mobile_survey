@@ -16,6 +16,14 @@ const kegiatan = sq.define('kegiatan',{
         type:DataTypes.STRING,
         defaultValue:""
     },
+    kec:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
+    kel:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
     volume:{
         type:DataTypes.STRING,
         defaultValue:""
