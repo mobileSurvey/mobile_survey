@@ -17,7 +17,7 @@ function authentificationAdmin(req,res,next){
         }
         else{
             // res.json({status : 400,message :"bukanAdmin" });
-            res.render('dashboard', {message: "Bukan Surveyor"})
+            res.render('login', {message: "Bukan Surveyor"})
         }
     })
     .catch(err=>{

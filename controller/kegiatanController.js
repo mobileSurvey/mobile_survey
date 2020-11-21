@@ -3,7 +3,7 @@ const importExcel= require('convert-excel-to-json')
 const del = require('del')
 
 class Controller{
-    static listAll(req, res){
+    static listView(req, res){
       res.render('content-backoffice/kegiatan/list');    
     }
 
@@ -45,6 +45,18 @@ class Controller{
             }
         },{returning:true})
         .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static listAll(req,res){
+       
+        kegiatan.findAll()
+        .then(respon=>{
+          
             res.json({respon})
         })
         .catch(err=>{

@@ -61,7 +61,8 @@ class Controller{
                     res.json("sukses")
                 }
                 else if(data[0].dataValues.role=="Masyarakat" && hasil){
-                    res.json({accesstoken : jwt.generateToken(data[0].dataValues)})
+                    data[0].dataValues.accesstoken = jwt.generateToken(data[0].dataValues);
+                    res.json(data)
                   }
                 else{
                     res.json({message : "password salah"})
