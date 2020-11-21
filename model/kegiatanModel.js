@@ -60,7 +60,7 @@ const kegiatan = sq.define('kegiatan',{
         type:DataTypes.INTEGER,
         defaultValue:0
     },
-    Shape:{
+    SHAPE:{
         type:DataTypes.GEOMETRY
     }
     

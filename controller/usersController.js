@@ -41,17 +41,17 @@ class Controller{
         })
          
       }
-
+  
     static login(req,res){
         const{username,password}= req.body
-
+        console.log(req.body)
         usersModel.findAll({
             where:{
                 username:username
             }
         })
         .then(data=>{
-            console.log(data[0].dataValues)
+            console.log(data)
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
                 if(data[0].dataValues.role=="Admin" && hasil){
@@ -60,7 +60,7 @@ class Controller{
                     req.session.save()
                     res.json("sukses")
                 }
-                else if(data[0].dataValues.role=="Masyarakat" && hasil){
+                else if(data[0].dataValues.role=="Surveyor" && hasil){
                     data[0].dataValues.accesstoken = jwt.generateToken(data[0].dataValues);
                     res.json(data)
                   }
