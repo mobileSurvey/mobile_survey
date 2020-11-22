@@ -81,7 +81,22 @@ class Controller{
             res.json(err)
         })
     }
-    
+    static listForApp(req,res){
+       
+        kegiatan.findAll({
+            where:{
+                kel :req.params.kel,
+                tahun: req.params.tahun
+            }
+        })
+        .then(respon=>{
+          
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
     
     static update(req,res){
         const {id}=req.params

@@ -9,6 +9,7 @@ router.get('/edit/:id',controller.edit)
 
 router.post('/register', controller.register)
 router.post('/login',controller.login)
+router.post('/loginadmin',controller.loginAdmin)
 router.post('/list/:id',controller.list)
 router.post('/update',controller.update)
 router.delete('/delete:id',controller.delete)

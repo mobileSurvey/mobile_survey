@@ -32,11 +32,13 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <h3 class="text-center"><strong>LOGIN</strong></h3>
+                            <h3 class="text-center"><strong><%= message%></strong></h3>
                         </div>
 
                         <div class="col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
                             <hr/>
-                                <form role="form" action="/autentifikasi/login" method="post">
+                       
+                                <form role="form" action="/user/loginadmin" method="post">
                                     <div class="append-icon">
                                         <input type="hidden" name="tujuan" value="<%=tujuan%>"/>
                                         <input type="text" name="username" class="form-control form-white username" placeholder="Username" >

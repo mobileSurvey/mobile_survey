@@ -15,6 +15,6 @@ router.use('/contoh',contoh)
 
 
 const {authentificationAdmin} = require('../middleware/authentification');
-router.get('/dashboard', dashboard.dashboard);
+router.get('/backoffice',authentificationAdmin, dashboard.dashboard);
 
 module.exports=router

@@ -54,14 +54,17 @@ class Controller{
             console.log(data)
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
+        data[0].dataValues.accesstoken = jwt.generateToken(data[0].dataValues);
                 if(data[0].dataValues.role=="Admin" && hasil){
                   
                     req.session.user= data[0].dataValues;
+                   
                     req.session.save()
-                    res.json("sukses")
+                    console.log(decodeURIComponent(req.body.tujuan))
+                    req.body.tujuan? res.redirect(decodeURIComponent(req.body.tujuan)) :res.redirect('/backoffice')
                 }
                 else if(data[0].dataValues.role=="Surveyor" && hasil){
-                    data[0].dataValues.accesstoken = jwt.generateToken(data[0].dataValues);
+                  
                     res.json(data)
                   }
                 else{
@@ -77,30 +80,35 @@ class Controller{
 
     static loginAdmin(req,res){
         const{username,password}= req.body
-
+        console.log(req.body)
         usersModel.findAll({
             where:{
                 username:username
-            },attributes: ['password']
+            }
         })
         .then(data=>{
+            console.log(data)
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
-        if(hasil){
-            if(data[0].role=="Admin"){
-                req.session= data;
-                req.session.save()
-                res.redirect('/dashboard');
-            }else{
-                res.render('login', {message: "Role Bukan Admin"})
-            }
-        } else{
-            res.render('login', {message: "password salah"});
+        data[0].dataValues.accesstoken = jwt.generateToken(data[0].dataValues);
+                if(data[0].dataValues.role=="Admin" && hasil){
+                  
+                    req.session.user= data[0].dataValues;
+                   
+                    req.session.save()
+                    console.log(decodeURIComponent(req.body.tujuan))
+                    req.body.tujuan? res.redirect(decodeURIComponent(req.body.tujuan)) :res.redirect('/backoffice')
+                }
+    
+                else{
+                    res.render('login', {message: "password salah!", tujuan: encodeURIComponent(req.originalUrl)})
+                  
                 }
             }
             else{
-                res.render('login', {message: "username tidak terdaftar"});
-            }
+                res.render('login', {message: "username tidak terdaftar!", tujuan: encodeURIComponent(req.originalUrl)})
+            
+        }
         })
         .catch(err=>{
             res.json({message : err})
