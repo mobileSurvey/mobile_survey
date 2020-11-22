@@ -17,60 +17,56 @@
       <div class="panel">
         <div class="panel-header header-line">
            <a class="btn btn-primary btn-embossed" href="/kegiatan/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
+           <a class="btn btn-primary btn-embossed" href="/importData/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Import</a>
         </div>
         <div class="panel-content pagination2">
           <table class="table table-bordered table-striped table-hover" id="data">
             <thead>
               <tr>
-                <th class="header" rowspan="2">No.</th>
-                <th class="header" rowspan="2">Kegiatan</th>
-                <th class="header" rowspan="2">Lokasi</th>
-                <th class="header" rowspan="2">Kecamatan</th>
-                <th class="header" rowspan="2">Kelurahan</th>
-                <th class="header" rowspan="2">Volume</th>
-                <th class="header" colspan="3">Pagu dan Sumber Dana </th>
-                <th class="header" rowspan="2">Pelaksana</th>
-                <th class="header" rowspan="2">Kesesuaian Dengan Perwali</th>
-                <th class="header" rowspan="2">Pelaksana</th>
-                <th class="header" rowspan="2">Keterangan</th>
-                <th class="header" rowspan="2">Jenis Anggaran</th>
-                <th class="header" rowspan="2" style="min-width: 120px;">Option</th>
+                <th class="header">No.</th>
+                <th class="header">Kegiatan</th>
+                <th class="header">Lokasi</th>
+                <th class="header">Kecamatan</th>
+                <th class="header">Kelurahan</th>
+                <th class="header" >Volume</th>
+                <th class="header" >Jenis Anggaran</th>
+                <th class="header" >Jumlah Anggaran</th>
+                <th class="header" >Pelaksana</th>
+                <th class="header" >Kesesuaian Dengan Perwali</th>
+                <th class="header">Keterangan</th>
+                <th class="header">Disetujui</th>
+                <th class="header"  style="min-width: 120px;">Option</th>
               </tr>
 
-              <tr>
-                <th class="header">APBD</th>
-                <th class="header">Alokasi Dana Kelurahan (DAUT/APBN)</th>
-                <th class="header">Alokasi Dana Kelurahan (APBD)</th>
-
-              </tr>
+           
             </thead>
             
             <tbody>
+              <% for(let i=0; i < respon.length; i++) {%>
             <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
+              <td><%= i+1%></td>
+              <td><%= respon[i].kegiatanPrioritas%></td>
+              <td><%= respon[i].lokasi%></td>
+              <td><%= respon[i].kec%></td>
+              <td><%= respon[i].kel%></td>
+              <td><%= respon[i].volume%></td>
+              <td><%= respon[i].jenisAnggaran%></td>
+              <td><%= respon[i].jumlahAnggaran%></td>
+              <td><%= respon[i].pelaksana%></td>
+              <td><%= (respon[i].kesesuaian)?'Ya':'Tidak'%></td>
+              <td><%= (respon[i].approval)?'Ya':'Tidak'%></td>
+              <td><%= respon[i].keterangan%></td>
               <td>
                 <center>
                 <ul class="list-inline">
-                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/kegiatan/edit/1" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/kegiatan/edit/<%= respon[i].id%>" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
                   <li class="separator">|</li>
-                  <li><a class="btn btn-danger btn-embossed btn-sm" href="#" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+                  <li><a class="btn btn-danger btn-embossed btn-sm" href="/kegiatan/delete/<%= respon[i].id%>" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
                 </ul>
                 </center>
               </td>
             </tr>
+            <% } %>
             </tbody>
           </table>
         </div>

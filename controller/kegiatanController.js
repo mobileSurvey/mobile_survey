@@ -6,15 +6,39 @@ const sq =  require('../connection');
 
 class Controller{
     static listView(req, res){
-      res.render('content-backoffice/kegiatan/list');    
+        kegiatan.findAll()
+        .then(respon=>{
+      
+            res.render('content-backoffice/kegiatan/list',{respon});    
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+ 
     }
 
-    static insert(req, res){
-      res.render('content-backoffice/kegiatan/insert');       
-    }
+    static async insert(req, res){
+        let kec = await sq.query("SELECT nama_kecamatan, id_kecamatan FROM `master_kecamatan`", { type: QueryTypes.SELECT }); 
+        
+        res.render('content-backoffice/kegiatan/insert',{kec});   
+      }   
+    
 
-    static edit(req, res){
-      res.render('content-backoffice/kegiatan/edit');    
+    static async edit(req, res){
+        let kec = await sq.query("SELECT nama_kecamatan, id_kecamatan FROM `master_kecamatan`", { type: QueryTypes.SELECT }); 
+        kegiatan.findAll({
+            where:{
+                id :req.params.id
+            }
+        },{returning:true})
+        .then(async respon=>{
+            let kel = await sq.query("SELECT nama_kelurahan, id_kelurahan FROM `master_kelurahan` WHERE kec='"+respon[0].kec+"'", { type: QueryTypes.SELECT }); 
+            res.render('content-backoffice/kegiatan/edit', {respon, kec, kel});  
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    
     }
 
  static async kec(req, res){
@@ -128,7 +152,8 @@ class Controller{
                 id: id
             }
         }).then(respon=>{
-            res.json(`berhasil delete id : ${id}`)
+            // res.json(`berhasil delete id : ${id}`)
+            res.redirect('/kegiatan/list')
             
         })
         .catch(err=>{
@@ -150,15 +175,23 @@ class Controller{
                 let result =  await importExcel({
                     sourceFile :'./assets/excel/'+namafile,
                     header     :   {rows:1},
-                    columnToKey:{A:'kegiatanPrioritas',B:'lokasi',C:'volume',D:'APBD',E:'DAUT',         F:'alokasiDanaKelurahan',G:'pelaksana',H:'kesesuaian',I:'keterangan',J:'jenisAnggaran,',K:'tahun',L:'approval',M:'jenisId'},
+                    columnToKey:{A:'kegiatanPrioritas',B:'lokasi',C:'volume',D:'jumlahAnggaran',E:'pelaksana', F:'kesesuaian',G:'keterangan',H:'jenisAnggaran',I:'tahun',J:'jenisId'},
                     sheets :['Sheet1']
                     
                 });
-                
-                kegiatan.bulkCreate(result.Sheet1,{returning:true})
+              
+
+                var hasil = result.Sheet1.map(function(el) {
+                    var o = Object.assign({}, el);
+                    o.kec = req.body.kec;
+                    o.kel = req.body.kel;
+                    return o;
+                  })
+
+                kegiatan.bulkCreate(hasil,{returning:true})
                 .then(data=>{
                     del(['./assets/excel/'+namafile])
-                    res.json("input data sukses")
+                   res.redirect('/kegiatan/list')
                 })
                 .catch(err=>{
                     res.json(err)

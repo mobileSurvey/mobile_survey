@@ -17,14 +17,14 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-content">
-          <form role="form" action="#" method="POST" enctype="multipart/form-data">
+          <form role="form" action="/kegiatan/createadmin" method="POST" enctype="multipart/form-data">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                   <label>Kegiatan Prioritas</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
+                      <input type="text" class="form-control" name="kegiatanPrioritas" id="">
                     </div>
                   </div>
                 </div>
@@ -33,7 +33,7 @@
                   <label>Lokasi</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
+                      <input type="text" class="form-control" name="lokasi" id="">
                     </div>
                   </div>
                 </div>
@@ -42,9 +42,12 @@
                   <label>Kecamatan</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <select class="form-control" name="" id="" data-search="true">
-                            <option value="">-- Pilih --</option>
-                        </select>
+                      <select name="kec" id="kec" class="form-control" data-search="true">
+                        <option value="">-- Pilih --</option>
+                        <% for(let i=0; i < kec.length; i++) {%>
+                          <option value="<%= kec[i].nama_kecamatan%>"><%= kec[i].nama_kecamatan%></option>
+                          <% } %>
+                    </select>
                     </div>
                   </div>
                 </div>
@@ -53,7 +56,7 @@
                   <label>Kelurahan</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <select class="form-control" name="" id="" data-search="true">
+                        <select class="form-control" name="kel" id="kel" data-search="true">
                             <option value="">-- Pilih --</option>
                         </select>
                     </div>
@@ -64,54 +67,39 @@
                   <label>Volume</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
+                      <input type="text" class="form-control" name="volume" id="">
                     </div>
                   </div>
                 </div>
 
+             
                 <div class="form-group">
-                  <hr/>
-                </div>
-                <div class="form-group">
-                  <h4><strong>PAGU DAN SUMBER DANA</strong></h4>
-                </div>
-
-                <div class="form-group">
-                  <label>APBD</label>
+                  <label>Jenis Anggaran</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
+                      <select class="form-control" name="jenisAnggaran" id="">
+                        <option value="APBD">APBD</option>
+                          <option value="DAUT">Alokasi Dana Kelurahan (DAUT/APBN)</option>
+                          <option value="APBDKEL">Alokasi Dana Kelurahan (APBD)</option>
+                      </select>
                     </div>
                   </div>
                 </div>
-
                 <div class="form-group">
-                  <label>Alokasi Dana Kelurahan (DAUT/APBN)</label>
+                  <label>Jumlah</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
+                      <input type="text" class="form-control" name="jumlahAnggaran" id="">
                     </div>
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label>Alokasi Dana Kelurahan (APBD)</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <hr/>
-                </div>
 
                 <div class="form-group">
                   <label>Pelaksana</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="" id="">
+                      <input type="text" class="form-control" name="pelaksana" id="">
                     </div>
                   </div>
                 </div>
@@ -120,10 +108,10 @@
                   <label>Kesesuaian Dengan PERWALI</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select class="form-control" name="" id="">
-                          <option value="">-- Pilih --</option>
-                          <option value="Sesuai">Sesuai</option>
-                          <option value="Tidak Sesuai">Tidak Sesuai</option>
+                      <select class="form-control" name="kesesuaian" id="">
+                        <option value="0">Tidak Sesuai</option>
+                          <option value="1">Sesuai</option>
+                          
                       </select>
                     </div>
                   </div>
@@ -133,7 +121,7 @@
                   <label>Keterangan</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <textarea name=""  class="form-control" id="" rows="10"></textarea>
+                      <textarea name="keterangan"  class="form-control" id="" rows="10"></textarea>
                     </div>
                   </div>
                 </div>
@@ -160,4 +148,12 @@
 <%- include('../../template-backoffice/footer.ejs'); -%>
 <script type="text/javascript">
 
+$('#kec').change(function(){
+      $('#kel').empty()
+          $.get( "/kegiatan/kel/"+$(this).val(), function( data ) {
+           data.forEach(element => {
+            $('#kel').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
+           });
+        });
+    })
 </script>
