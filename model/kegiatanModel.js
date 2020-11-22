@@ -48,6 +48,18 @@ const kegiatan = sq.define('kegiatan',{
         type:DataTypes.STRING,
         defaultValue:""
     },
+    foto1:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
+    foto2:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
+    foto3:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
     tahun:{
         type:DataTypes.INTEGER
     },
