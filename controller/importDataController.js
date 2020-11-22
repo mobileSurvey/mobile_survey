@@ -1,3 +1,5 @@
+const sq=require('../connection')
+const { QueryTypes } = require('sequelize');
 
 class Controller{
 
@@ -5,8 +7,11 @@ class Controller{
         res.render('content-backoffice/importData/list');    
        }
 
-    static insert(req, res){
-        res.render('content-backoffice/importData/insert');       
+    static async insert(req, res){
+      let kec = await sq.query("SELECT nama_kecamatan, id_kecamatan FROM `master_kecamatan`", { type: QueryTypes.SELECT }); 
+        res.render('content-backoffice/importData/insert',{kec}); 
+      
+      
       }
 
       static edit(req, res){

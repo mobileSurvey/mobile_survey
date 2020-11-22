@@ -26,6 +26,9 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                       <select name="" id="" class="form-control" data-search="true">
                           <option value="">-- Pilih --</option>
+                          <% for(let i=0; i < kec.length; i++) {%>
+                            <option value="<%= kec[i].nama_kecamatan%>"><%= kec[i].nama_kecamatan%></option>
+                            <% } %>
                       </select>
                     </div>
                   </div>
