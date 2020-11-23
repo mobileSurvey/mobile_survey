@@ -7,7 +7,7 @@ const jenis = sq.define('jenis',{
         primaryKey: true,
         autoIncrement: true
     },
-    tipe:{
+    jenis:{
          type:DataTypes.STRING,
          defaultValue:''
     },

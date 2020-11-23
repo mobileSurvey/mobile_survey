@@ -46,7 +46,7 @@ function authentificationSurveyor(req,res,next){
                next()
            }
            else{
-               res.json({status : 400,message :"Bukan Surveyor" })
+               res.json({status : 400,message :"Bukan Surveyor, Silahkan Login Kembali!" })
             
            }
        })

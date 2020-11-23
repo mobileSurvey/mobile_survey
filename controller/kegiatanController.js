@@ -84,9 +84,15 @@ class Controller{
         // var bitmap = fs.readFileSync('./assets/foto/'+file);
         // // convert binary data to base64 encoded string
         // return new Buffer(bitmap).toString('base64');
-       return fs.readFileSync('./assets/foto/'+file, 'base64');
+        let fileContents
+        try {
+            fileContents = fs.readFileSync('./assets/foto/'+file, 'base64')
+          } catch (err) {
+            fileContents = ""
+          }
+       
+       return fileContents
     }
-
     
       static list(req,res){
         const{id}=req.params
@@ -160,19 +166,25 @@ class Controller{
             let filenama =Date.now()+x+'.jpeg'; 
             Controller.base64_decode(post['foto1'],'./assets/foto/'+filenama);
             post['foto1'] = filenama;
+         }else{
+             delete post['foto1']
          }
          if(post['foto2']){
             var x = Math.floor((Math.random() * 260) + 105);
             let filenama =Date.now()+x+'.jpeg'; 
             Controller.base64_decode(post['foto2'],'./assets/foto/'+filenama);
             post['foto2'] = filenama;
-         }
+         }else{
+            delete post['foto2']
+        }
          if(post['foto3']){
             var x = Math.floor((Math.random() * 260) + 105);
             let filenama =Date.now()+x+'.jpeg'; 
             Controller.base64_decode(post['foto3'],'./assets/foto/'+filenama);
             post['foto3'] = filenama;
-         }
+         }else{
+            delete post['foto3']
+        }
     
         kegiatan.update(post,{
             where :{
