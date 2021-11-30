@@ -1,5 +1,10 @@
 <%- include('../../template-backoffice/header.ejs'); -%>
+<%
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
+%>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -16,8 +21,92 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="panel">
         <div class="panel-header header-line">
-           <a class="btn btn-primary btn-embossed" href="/kegiatan/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
-           <a class="btn btn-primary btn-embossed" href="/importData/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Import</a>
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <a class="btn btn-primary btn-embossed" href="/kegiatan/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
+              <%if(user.role=='Admin'){%>
+              <a class="btn btn-info btn-embossed" href="/importData/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Import</a>
+          <%}%>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <button class="btn btn-success btn-embossed pull-right" data-toggle="modal" data-target=".bs-example-modal-lg">Export Excel/PDF</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <div class="panel bg-aero">
+                <div class="panel-header ui-sortable-handle">
+                  <h3><strong>PENCARIAN DATA</strong></h3>
+                </div>
+                <div class="panel-content">
+                  <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                      <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label>Tahun</label>
+                            <select name="" id="tahun" class="form-control" data-search="true">
+                  
+                              <% for(let i=2021; i <2051; i++) {%>
+                                <option value="<%= i%>"><%= i%></option>
+                                <% } %>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <%if(user.role=='Admin'){%>
+                        <div class="col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label>Dewan</label>
+                            <select name="" id="dewan" class="form-control" data-search="true">
+                                <option value="">-- Semua Dewan --</option>
+                                <% for(let i=0; i < dewan.length; i++) {%>
+                                  <option value="<%= dewan[i].id%>"><%= dewan[i].nama%></option>
+                                  <% } %>
+                            </select>
+                          </div>
+                        </div>
+                        <%}%>
+                      </div>
+                      
+                    </div>
+
+
+                    <div class="col-md-6 col-lg-6">
+                      <%if(user.role=='Admin'){%>
+                      <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label>Kecamatan</label>
+                            <select name="kec" id="kec" class="form-control" data-search="true">
+                                <option value="">-- Semua Kecamatan --</option>
+                                <% for(let i=0; i < kec.length; i++) {%>
+                                  <option value="<%= kec[i].nama_kecamatan%>"><%= kec[i].nama_kecamatan%></option>
+                                  <% } %>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label>Kelurahan</label>
+                            <select name="kel" id="kel" class="form-control" data-search="true">
+                                <option value="">-- Semua Kelurahan --</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <%}%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="panel-content pagination2">
           <table class="table table-bordered table-striped table-hover" id="data">
@@ -25,48 +114,27 @@
               <tr>
                 <th class="header">No.</th>
                 <th class="header">Kegiatan</th>
+                <th class="header">Jenis Pekerjaan</th>
                 <th class="header">Lokasi</th>
                 <th class="header">Kecamatan</th>
                 <th class="header">Kelurahan</th>
+                <th class="header">Koordinat Lokasi</th>
                 <th class="header" >Volume</th>
                 <th class="header" >Jenis Anggaran</th>
-                <th class="header" >Jumlah Anggaran</th>
+                <th class="header" >Jumlah Anggaran (Rp)</th>
                 <th class="header" >Pelaksana</th>
                 <th class="header" >Kesesuaian Dengan Perwali</th>
                 <th class="header">Keterangan</th>
                 <th class="header">Disetujui</th>
-                <th class="header"  style="min-width: 120px;">Option</th>
+                <th class="header">Verifikasi Lokasi</th>
+                <th class="header"  style="min-width: 100px;">Option</th>
               </tr>
 
            
             </thead>
             
             <tbody>
-              <% for(let i=0; i < respon.length; i++) {%>
-            <tr>
-              <td><%= i+1%></td>
-              <td><%= respon[i].kegiatanPrioritas%></td>
-              <td><%= respon[i].lokasi%></td>
-              <td><%= respon[i].kec%></td>
-              <td><%= respon[i].kel%></td>
-              <td><%= respon[i].volume%></td>
-              <td><%= respon[i].jenisAnggaran%></td>
-              <td><%= respon[i].jumlahAnggaran%></td>
-              <td><%= respon[i].pelaksana%></td>
-              <td><%= (respon[i].kesesuaian)?'Ya':'Tidak'%></td>
-              <td><%= (respon[i].approval)?'Ya':'Tidak'%></td>
-              <td><%= respon[i].keterangan%></td>
-              <td>
-                <center>
-                <ul class="list-inline">
-                  <li><a class="btn btn-warning btn-embossed btn-sm" href="/kegiatan/edit/<%= respon[i].id%>" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
-                  <li class="separator">|</li>
-                  <li><a class="btn btn-danger btn-embossed btn-sm" href="/kegiatan/delete/<%= respon[i].id%>" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
-                </ul>
-                </center>
-              </td>
-            </tr>
-            <% } %>
+            
             </tbody>
           </table>
         </div>
@@ -84,13 +152,100 @@
 </div>
 <!-- END PAGE CONTENT -->
 
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="#">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Export Excel/PDF</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Kecamatan</label>
+          <select class="form-control" name="" id="kecExport" data-search="true">
+            <% for(let i=0; i < kec.length; i++) {%>
+              <option value="<%= kec[i].nama_kecamatan%>"><%= kec[i].nama_kecamatan%></option>
+              <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Kelurahan</label>
+          
+          <select class="form-control" name="" id="kelExport" data-search="true">
+            <option value="">-- Pilih --</option>
+          </select>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+        <!-- <button type="button" class="btn btn-primary">Export</button> -->
+        <a href="#" target="_blank" class="btn btn-success btn-embossed" onclick="goo()">Export EXCEL</a>
+        <a href="#" target="_blank" class="btn btn-success btn-embossed" onclick="gooPDF()">Export PDF</a>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <%- include('../../template-backoffice/footer.ejs'); -%>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#data').DataTable({
+function numberWithCommas(x) {
+		  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		}
+ $.get( "/kegiatan/kel/"+$('#kec').val(), function( data ) {
+           data.forEach(element => {
+            $('#kel').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
+           });
+           $('#kel').val(data[0].nama_kelurahan).trigger('change');
+        });
+
+
+$('#kec').change(function(){
+      $('#kel').empty()
+          $.get( "/kegiatan/kel/"+$(this).val(), function( data ) {
+     
+           data.forEach(element => {
+            $('#kel').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
+           });
+           $('#kel').val(data[0].nama_kelurahan).trigger('change');
+        });
+    })
+
+    $.get( "/kegiatan/kel/"+$('#kecExport').val(), function( data ) {
+           data.forEach(element => {
+            $('#kelExport').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
+           });
+           $('#kelExport').val(data[0].nama_kelurahan).trigger('change');
+        });
+
+
+$('#kecExport').change(function(){
+      $('#kelExport').empty()
+          $.get( "/kegiatan/kel/"+$(this).val(), function( data ) {
+         
+           data.forEach(element => {
+            $('#kelExport').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
+           });
+           $('#kelExport').val(data[0].nama_kelurahan).trigger('change');
+        });
+    })
+
+  function goo(){
+    // location.href = `/kegiatan/export_excel?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`;
+    window.open(`/kegiatan/export_excel?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`);
+
+  }
+
+  function gooPDF(){
+    // location.href = `/kegiatan/cetak_laporan?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`;
+    window.open(`/kegiatan/cetak_laporan?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`);
+
+  }
+
+   var t  =  $('#data').DataTable({
       "language": {
-          "sProcessing":   "Sedang memproses...",
+        "sProcessing":   '<span>Sedang memproses...</span><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>',
           "sLengthMenu":   "_MENU_",
           "sZeroRecords":  "Tidak ditemukan data yang sesuai",
           "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -105,9 +260,137 @@
             "sLast":     "Terakhir"
           }
       },
+  
+      "processing": true,
+           "ajax": "/kegiatan/list_json/"+$('#tahun').val(),
+           "columns": [
+               { "data": null},
+               { "data": "kegiatanPrioritas" },
+               { "data": "jeni", render: function(datane){
+                 if(datane){
+                   return datane.jenis
+                 }else{
+                  return ''
+                 }
+               
+               } },
+               { "data": "lokasi" },
+               { "data": "kec" },
+               { "data": "kel" },
+               { "data": null, render: function(datane){
+                //  console.log(datane)
+                if(datane.SHAPE){
+                   return '<a href="https://www.google.com/maps/dir/Current+Location/'+datane.SHAPE.coordinates[1]+','+datane.SHAPE.coordinates[0]+'">'+datane.SHAPE.coordinates[0].toFixed(4)+'<br/>'+datane.SHAPE.coordinates[1].toFixed(4)+'</a>'
+                 }else if(datane.PETA){
+                   return '<a href="https://www.google.com/maps/dir/Current+Location/'+datane.PETA.coordinates[0][1]+','+datane.PETA.coordinates[0][0]+'">'+datane.PETA.coordinates[0][0].toFixed(4)+'<br/>'+datane.PETA.coordinates[0][1].toFixed(4)+'</a>'
+                 }else{
+                  return ''
+                 }
+               }},
+               { "data": "volume" },
+               { "data": "jenisAnggaran" },
+               { "data": "jumlahAnggaran", render: function(datane){
+                   return '<span class="pull-right">'+numberWithCommas(datane)+'</span>';
+               }},
+               { "data": "pelaksana" },
+               { "data": "kesesuaian", render: function(datane){
+                 if(datane){
+                   return 'Ya'
+                 }else{
+                  return 'Tidak'
+                 }
+             
+               } },
+               { "data": "keterangan" },
+               { "data": "approval", render: function(datane, type, row){
+                <%if(user.role=='Admin'){%>
+                 let r = '<select  onChange="asas(\''+row.id+'\', this)">'
+                 if(datane){
+                   r+="<option value='0'>Tidak</option><option value='1' selected>Ya</option>"
+           
+                 }else{
+                  r+="<option value='0' selected>Tidak</option><option value='1'>Ya</option>"
+           
+                 }
+                 
+                 r+="</select>"
+                 return r
+                 <%}else{%>
+                  if(datane){
+                   return 'Ya'
+                 }else{
+                  return 'Tidak'
+                 }
+                 <%}%>
+               } },
+
+               { "data": null, render: function(datane){
+                 if(datane.SHAPE || datane.PETA){
+                   return 'Terverifikasi'
+                 }else{
+                  return 'Belum Terverifikasi'
+                 }
+             
+               } },
+              //  { "data": "lunas" , render: function(datane){
+              //     if(datane= "1"){
+              //       return "LUNAS"
+              //     }else{
+              //       return "BELUM LUNAS"
+              //     }
+              //  }},
+           
+               { "data": "id", render: function(id){
+                  return ` <center>
+                 <ul class="list-inline">
+                   <li><a class="btn btn-warning btn-embossed btn-sm" href="/kegiatan/edit/${id}" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+                   <li class="separator">|</li>
+                  <li><a class="btn btn-danger btn-embossed btn-sm" href="/kegiatan/delete/${id}" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+                  <li class="separator">|</li>
+                   <li><a class="btn btn-info btn-embossed btn-sm" href="/kegiatan/cetak/${id}" role="button" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a></li>
+                </ul>
+                </center>`
+               }}
+         ],
+         "deferRender": true,
+         // "ordering": false,
+        //  "columnDefs": [
+        //      { "width": "3%" },
+        //      { "width": "20%" },
+        //      { "width": "24%" },
+        //      { "width": "10%" },
+        //      { "width": "20%" },
+        //      { "width": "20%" },
+    
+        //      { "width": "20%" }
+        //   ],
+         "fnRowCallback": function( row, data, iDisplayIndex ) {
+                   var index = iDisplayIndex +1;
+                   $('td:eq(0)',row).html(index);
+                   return row;
+         },
     //   "columnDefs": [
     //       { "width": "100px", "targets": 14}
     //   ],
     });
-  });
+     function asas(a, b){
+      $.getJSON( "/kegiatan/update_status/"+a+"/"+b.value, function( data ) {
+alert(data.status)
+ console.log(data)
+});
+      console.log(a, b.value)
+};
+
+  $('#tahun, #kec, #kel, #dewan').change(function(){
+    let tambahan = ""
+    if($('#kec').val()!=""){
+      tambahan += `?kec=${$('#kec').val()}&kel=${$('#kel').val()}&dewan=${$('#dewan').val()}`
+    }
+    if($('#kec').val()==""&&$('#dewan').val()!=""&&$('#dewan').val()!='undefined'){
+      tambahan += `?dewan=${$('#dewan').val()}`
+    }
+    t.ajax.url( `/kegiatan/list_json/${$('#tahun').val()}${tambahan}` ).load();
+  })
+  $('#tahun').val(2022)
+  t.ajax.url( `/kegiatan/list_json/${$('#tahun').val()}` ).load();
 </script>

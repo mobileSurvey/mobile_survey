@@ -46,6 +46,32 @@
                 </div>
 
                 <div class="form-group">
+                  <label>Tahun</label>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <select name="tahun" id="" class="form-control" data-search="true">
+                          <% for(let i=2020; i <2051; i++) {%>
+                            <option value="<%= i%>"><%= i%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Dewan</label>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                      <select name="dewanId" id="" class="form-control" data-search="true">
+                          <option value="">-- Bukan Dewan --</option>
+                          <% for(let i=0; i < dewan.length; i++) {%>
+                            <option value="<%= dewan[i].id%>"><%= dewan[i].nama%></option>
+                            <% } %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label>Upload File</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">

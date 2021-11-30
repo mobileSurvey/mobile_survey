@@ -10,19 +10,23 @@ function authentificationAdmin(req,res,next){
     
         User.findAll({
              where:{
-                 password:decode.password
+                 id:decode.id
              }
          })
          .then(data=>{
             // console.log(data[0].dataValues.role, 'hasil decode')
-             if(data[0].dataValues.role=="Admin"){ 
+              if(data[0].dataValues.role){ 
                  
                  next()
              }
-             else{
-                 // res.json({status : 400,message :"bukanAdmin" });
-                 res.render('login', {message: "Bukan Admin!", tujuan: encodeURIComponent(req.originalUrl)})
-             }
+            //  if(data[0].dataValues.role=="Admin"){ 
+                 
+            //      next()
+            //  }
+            //  else{
+            //      // res.json({status : 400,message :"bukanAdmin" });
+            //      res.render('login', {message: "Bukan Admin!", tujuan: encodeURIComponent(req.originalUrl)})
+            //  }
          })
          .catch(err=>{
              next(err)
@@ -42,7 +46,8 @@ function authentificationSurveyor(req,res,next){
            }
        })
        .then(data=>{
-           if(data.role=="Surveyor"){ 
+           
+           if(data[0].dataValues.role=="Surveyor"){ 
                next()
            }
            else{

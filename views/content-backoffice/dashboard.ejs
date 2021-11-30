@@ -1,5 +1,11 @@
 <%- include('../template-backoffice/header.ejs'); -%>
-
+<style>
+  .force-table-responsive{
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+  }
+</style>
 <!-- BEGIN PAGE CONTENT -->
 <div class="page-content">
   <div class="header">
@@ -11,15 +17,465 @@
     </div> -->
   </div>
   <div class="row">
-    <div class="col-lg-12">
-      <!-- HERE COMES YOUR CONTENT -->
+    <div class="col-xs-12 col-sm-12 ">
+      <div class="panel">
+        <div class="panel-content">
+          <h4 style="text-align: center;"><strong>GRAFIK KEGIATAN PER JENIS PEKERJAAN</strong></h4>
+          <h4 style="text-align: center;"><strong>SELURUH TAHUN</strong></h4>
+          <hr>
+          <div style="width: 100%;height: 400px;" id="all_tahun"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="panel">
+        <div class="panel-content">
+          <h4 style="text-align: center;"><strong>GRAFIK KEGIATAN PER JENIS PEKERJAAN</strong></h4>
+          <h4 style="text-align: center;"><strong>TAHUN "0000"</strong></h4>
+          <hr>
+          <div style="width: 100%;height: 400px;" id="live_tahun"></div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: left;"><strong>TAHUN</strong></h4>
+              <select id="tahun">
+                <% for(let i = 2020; i <2051; i++){%>
+                    <option value="<%= i%>">
+                      <h4 style="text-align: left;"><strong> <%= i%></h4>
+                    </option>
+                  <%}%>
+              </select>
+              <hr>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: left;"><strong>USULAN KEGIATAN PERKECAMATAN</strong></h4>
+              <hr>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">TOTAL</th>
+                    <th style="text-align: center;">TERSURVEY</th>
+                  </tr>
+                </thead>
+                <%
+                var total_semua =  0;
+                var total_tersurvey = 0;
+                for(let i = 0; i < kecamatan.length; i++){
+                
+                  total_semua += kecamatan[i].y ;
+                  total_tersurvey += parseInt(kecamatan[i].tersurvey);
+                  }%>
+              <tbody>
+                <tr>
+                  <td rowspan="2" style="text-align: center;font-size: 24px;"><strong><%=total_semua%></strong></td>
+                  <td style="text-align: center;font-size: 24px;font-weight: bold;padding: 10px 0;"><%=total_tersurvey%></td>
+                  
+                </tr>
+
+                <tr>
+                  <td style="text-align: center;font-size: 24px;font-weight: bold;padding: 10px 0;"><%= (total_tersurvey*100/total_semua)?(total_tersurvey*100/total_semua).toFixed(2): '' %>%</td>
+                </tr>
+              </tbody>
+              </table>
+            </div>
+
+
+            <div class="col-md-8 col-lg-8">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="min-width:150px">&nbsp;</th>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                    <th style="text-align: center;"><%= kecamatan[i].label%></th>
+                    <%}%>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td style="font-weight: bold;">TOTAL USULAN</td>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                
+                      <td style="text-align: center;"><%= kecamatan[i].y%></td>
+                      <%}%>
+          
+                  </tr>
+
+                  <tr>
+                    <td style="font-weight: bold;">TERSURVEY</td>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                
+                      <td style="text-align: center;"><%= kecamatan[i].tersurvey%></td>
+                      <%}%>
+          
+                  </tr>
+
+                  <tr>
+                    <td style="font-weight: bold;">% TERSURVEY</td>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                
+                      <td style="text-align: center;"><%= (kecamatan[i].tersurvey * 100 / kecamatan[i].y).toFixed(2)%></td>
+                      <%}%>
+                  </tr>
+
+                  <tr>
+                    <td style="font-weight: bold;">DISETUJUI</td>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                
+                      <td style="text-align: center;"><%= kecamatan[i].disetujui%></td>
+                      <%}%>
+                    
+                  </tr>
+
+                  <tr>
+                    <td style="font-weight: bold;">% DISETUJUI</td>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                
+                      <td style="text-align: center;"><%= (kecamatan[i].disetujui * 100 / kecamatan[i].y).toFixed(2)%></td>
+                      <%}%>
+          
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: left;"><strong>USULAN KEGIATAN PER JENIS PEKERJAAN</strong></h4>
+              <hr>
+            </div>
+          </div>
+          
+          <div class="row">
+            <!-- <div class="col-md-4 col-lg-4">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">TOTAL</th>
+                    <th style="text-align: center;">TERSURVEY</th>
+                  </tr>
+                </thead>
+                <%
+                var total_semua =  0;
+                var total_tersurvey = 0;
+                for(let i = 0; i < jenis.length; i++){
+                
+                  total_semua += jenis[i].y ;
+                  total_tersurvey += parseInt(jenis[i].tersurvey);
+                  }%>
+              <tbody>
+                <tr>
+                  <td rowspan="2" style="text-align: center;font-size: 24px;"><strong><%=total_semua%></strong></td>
+                  <td style="text-align: center;font-size: 24px;font-weight: bold;padding: 10px 0;"><%=total_tersurvey%></td>
+                  
+                </tr>
+
+                <tr>
+                  <td style="text-align: center;font-size: 24px;font-weight: bold;padding: 10px 0;"><%=(total_tersurvey*100/total_semua)?(total_tersurvey*100/total_semua).toFixed(2): ''%>%</td>
+                </tr>
+              </tbody>
+              </table>
+            </div> -->
+
+
+            <div class="col-md-12 col-lg-12">
+              <div style="width: 100%;">
+                <table class="table table-bordered" style="margin-bottom: 0;">
+               
+                    <thead>
+                      <tr>
+                        <th style="min-width:150px">&nbsp;</th>
+                        <%for(let i = 0; i < jenis.length; i++){%>
+                        <th style="text-align: center;"><%= jenis[i].label%></th>
+                        <%}%>
+                      </tr>
+                    </thead>
+    
+                    <tbody>
+                      <tr>
+                        <td style="font-weight: bold;">TOTAL USULAN</td>
+                        <%for(let i = 0; i < jenis.length; i++){%>
+                    
+                          <td style="text-align: center;"><%= jenis[i].y%></td>
+                          <%}%>
+              
+                      </tr>
+    
+                      <tr>
+                        <td style="font-weight: bold;">TERSURVEY</td>
+                        <%for(let i = 0; i < jenis.length; i++){%>
+                    
+                          <td style="text-align: center;"><%= jenis[i].tersurvey%></td>
+                          <%}%>
+              
+                      </tr>
+  
+                      <tr>
+                        <td style="font-weight: bold;">% TERSURVEY</td>
+                        <%for(let i = 0; i < jenis.length; i++){%>
+                    
+                          <td style="text-align: center;"><%= (jenis[i].tersurvey!='0')?(parseInt(jenis[i].tersurvey) * 100 / parseInt(jenis[i].y)).toFixed(2) : 0%></td>
+                          <%}%>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold;">DISETUJUI</td>
+                        <%for(let i = 0; i < jenis.length; i++){%>
+                    
+                          <td style="text-align: center;"><%= jenis[i].disetujui%></td>
+                          <%}%>
+                        
+                      </tr>
+    
+                      <tr>
+                        <td style="font-weight: bold;">% DISETUJUI</td>
+                        <%for(let i = 0; i < jenis.length; i++){%>
+                    
+                          <td style="text-align: center;"><%= (jenis[i].disetujui!='0')?(parseInt(jenis[i].disetujui) * 100 / parseInt(jenis[i].y)).toFixed(2) : 0%></td>
+                          <%}%>
+              
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="panel">
+        <div class="panel-content">
+          <h4 style="text-align: center;"><strong>GRAFIK PRESENTASE KEGIATAN</strong></h4>
+          <h4 style="text-align: center;"><strong>PER KECAMATAN</strong></h4>
+          <hr>
+          <div style="width: 100%;height: 400px;" id="pie_kec"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="panel">
+        <div class="panel-content">
+          <h4 style="text-align: center;"><strong>GRAFIK PRESENTASE KEGIATAN</strong></h4>
+          <h4 style="text-align: center;"><strong>PER JENIS PEKERJAAN</strong></h4>
+          <hr>
+          <div style="width: 100%;height: 400px;" id="pie_pekerjaan"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: center;"><strong>GRAFIK JUMLAH USULAN PERKECAMATAN</strong></h4>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-7 col-lg-7">
+              <div style="width: 100%;height: 400px;" id="usulan_kec"></div>
+            </div>
+
+            <div class="col-md-5 col-lg-5">
+              <div style="width: 100%;">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Kecamatan</th>
+                      <th>Jumlah Usulan</th>
+                      <th>Jumlah Usulan Tersurvey</th>
+                      <th>Option</th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    <%for(let i = 0; i < kecamatan.length; i++){%>
+                      <tr>
+                        <td><%= kecamatan[i].label%></td>
+                        <td><%= kecamatan[i].y%></td>
+                        <td><%= kecamatan[i].tersurvey%></td>
+                        <td><button class="btn btn-primary btn-sm btn-embossed detail-kel" kecnya="<%= kecamatan[i].label%>" id="detail-kel">Detail</button></td>
+                      </tr>
+                      <%}%>
+                   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" id="konten-usulan-kel">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: center;"><strong>GRAFIK JUMLAH USULAN </strong></h4>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <div style="width: 100%;height: 400px;" id="usulan_kel"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: center;"><strong>GRAFIK JUMLAH USULAN YANG DISETUJUI PERKECAMATAN</strong></h4>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-7 col-lg-7">
+              <div style="width: 100%;height: 400px;" id="usulan_kec_setuju"></div>
+            </div>
+
+            <div class="col-md-5 col-lg-5">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Kecamatan</th>
+                    <th>Jumlah Usulan</th>
+                    <th>Option</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <%for(let i = 0; i < kecamatan.length; i++){%>
+                    <tr>
+                      <td><%= kecamatan[i].label%></td>
+                      <td><%= kecamatan[i].tersurvey%></td>
+                      <td><button class="btn btn-primary btn-sm btn-embossed detail-kel-setuju" kecnya="<%= kecamatan[i].label%>" id="detail-kel">Detail</button></td>
+                    </tr>
+                    <%}%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: center;"><strong>USULAN DPRD</strong></h4>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 pagination2">
+              <table class="table table-bordered" id="data">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Nama Anggora DPRD</th>
+                    <th>Jumlah Usulan</th>
+                    <th>Jumlah Tersurvey</th>
+                    <th>Jumlah Disetujui</th>
+                    <th>Option</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% for(let i =0; i < dprd.length; i++){%>
+                  <tr>
+                    <td><%= i+1%></td>
+                    <td><%= dprd[i].label%></td>
+                    <td><%= dprd[i].y%></td>
+                    <td><%= dprd[i].tersurvey%></td>
+                    <td><%= dprd[i].disetujui%></td>
+                    <td><a href="/kegiatan/list_dprd/<%= dprd[i].id%>/<%= tahun%>" class="btn btn-primary btn-sm btn-embossed">Detail</a></td>
+                  </tr>
+                  <%}%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="konten-usulan-kel-setuju">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 style="text-align: center;"><strong>GRAFIK JUMLAH USULAN YANG DI SETUJUI KECAMATAN "A"</strong></h4>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <div style="width: 100%;height: 400px;" id="usulan_kel_setuju"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
     <div class="copyright">
       <p class="pull-left sm-pull-reset">
-        <span>Copyright <span class="copyright">©</span> 2018 </span>
-        <span></span>.
+        <span>Copyright <span class="copyright">©</span> 2020 </span>
+        <span>Pemerintah Kota Salatiga</span>.
       </p>
     </div>
   </div>
@@ -27,3 +483,424 @@
 <!-- END PAGE CONTENT -->
 
 <%- include('../template-backoffice/footer.ejs'); -%>
+
+<script>
+$(document).ready(function() {
+    $('#data').DataTable({
+      "language": {
+          "sProcessing":   "Sedang memproses...",
+          "sLengthMenu":   "_MENU_",
+          "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+          "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
+          "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "sInfoPostFix":  "",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Pertama",
+            "sPrevious": "Sebelumnya",
+            "sNext":     "Selanjutnya",
+            "sLast":     "Terakhir"
+          }
+      },
+      "columnDefs": [
+          { "width": "100px", "targets": 5}
+      ],
+    });
+  });
+  // console.log([
+	// 		{x: 2002, y: 10},
+	// 		{x: 2003, y: 90},
+
+  //   ])
+
+  $('#tahun').val(<%= tahun%>+1)
+  $('#tahun').change(function(){
+    window.location.href = '?tahun='+$('#tahun').val();
+  })
+    let drainase = <%- JSON.stringify(drainase) %>;
+    drainase.forEach((element,index) => {
+      drainase[index].x = new Date(drainase[index].x, 0);
+    });
+
+    let jalan = <%- JSON.stringify(jalan) %>;
+    jalan.forEach((element,index) => {
+      jalan[index].x = new Date(jalan[index].x, 0);
+    });
+
+    let sumur = <%- JSON.stringify(sumur) %>;
+    sumur.forEach((element,index) => {
+      sumur[index].x = new Date(sumur[index].x, 0);
+    });
+
+    let rth = <%- JSON.stringify(rth) %>;
+    rth.forEach((element,index) => {
+      rth[index].x = new Date(rth[index].x, 0);
+    });
+
+    let sanitasi = <%- JSON.stringify(sanitasi) %>;
+    sanitasi.forEach((element,index) => {
+      sanitasi[index].x = new Date(sanitasi[index].x, 0);
+    });
+
+    let bangunan = <%- JSON.stringify(bangunan) %>;
+    bangunan.forEach((element,index) => {
+      bangunan[index].x = new Date(bangunan[index].x, 0);
+    });
+    let jembatan = <%- JSON.stringify(jembatan) %>;
+    jembatan.forEach((element,index) => {
+      jembatan[index].x = new Date(jembatan[index].x, 0);
+    });
+  var chart1 = new CanvasJS.Chart("all_tahun", {
+    backgroundColor:'transparent',
+	animationEnabled: true,
+	axisX:{
+      labelFontSize: 14,
+      interval: 1,
+		intervalType: "year",
+		valueFormatString: "YYYY",
+      labelAngle: 90,
+  },
+
+  axisY:{
+      labelFontSize: 14,
+      // interval:1,
+
+  },
+	// toolTip: {
+	// 	shared: true
+	// },
+	
+  data: [{
+		// yValueFormatString: "####",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "Drainase",
+		dataPoints: drainase
+	},
+  {
+		// yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "Jalan",
+		dataPoints: jalan
+	},
+  {
+		// yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "Sumur",
+		dataPoints: sumur
+  },
+  {
+		// yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "RTH",
+		dataPoints: rth
+  },
+  {
+		// yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "Sanitasi",
+		dataPoints: sanitasi
+  },
+  {
+		// yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "Bangunan",
+		dataPoints: bangunan
+  },
+  {
+		// yValueFormatString: "#,### Units",
+		xValueFormatString: "YYYY",
+		type: "spline",
+    showInLegend: true,
+		name: "Jembatan",
+		dataPoints: jembatan
+	}]
+});
+var chart2 = new CanvasJS.Chart("live_tahun", {
+    backgroundColor:'transparent',
+	animationEnabled: true,
+	axisX:{
+      labelFontSize: 14,
+      // interval:1,
+      labelAngle: 90,
+      interval: 1,
+		intervalType: "month",
+		valueFormatString: "MMM"
+  },
+
+  axisY:{
+      labelFontSize: 14,
+      // interval:1,
+
+  },
+	// toolTip: {
+	// 	shared: true
+	// },
+	
+  data: [{
+		// yValueFormatString: "#,### Units",
+		// xValueFormatString: "MMM",
+		type: "spline",
+    showInLegend: true,
+		name: "Drainase",
+    dataPoints: 
+    [
+			{x: new Date(2016, 00, 1), y: 10},
+			{x: new Date(2016, 01, 1), y: 20},
+			{x: new Date(2016, 02, 1), y: 30},
+			{x: new Date(2016, 03, 1), y: 40},
+			{x: new Date(2016, 04, 1), y: 50},
+			{x: new Date(2016, 05, 1), y: 60},
+			{x: new Date(2016, 06, 1), y: 70},
+			{x: new Date(2016, 07, 1), y: 80},
+			{x: new Date(2016, 08, 1), y: 90},
+			{x: new Date(2016, 09, 1), y: 10},
+			{x: new Date(2016, 10, 1), y: 20},
+			{x: new Date(2016, 11, 1), y: 30}
+
+		]
+	},
+  {
+		// yValueFormatString: "#,### Units",
+		// xValueFormatString: "MMM",
+		type: "spline",
+    showInLegend: true,
+		name: "Jalan",
+		dataPoints: [
+			{x: new Date(2016, 00, 1), y: 90},
+			{x: new Date(2016, 01, 1), y: 80},
+			{x: new Date(2016, 02, 1), y: 70},
+			{x: new Date(2016, 03, 1), y: 60},
+			{x: new Date(2016, 04, 1), y: 50},
+			{x: new Date(2016, 05, 1), y: 40},
+			{x: new Date(2016, 06, 1), y: 30},
+			{x: new Date(2016, 07, 1), y: 20},
+			{x: new Date(2016, 08, 1), y: 10},
+			{x: new Date(2016, 09, 1), y: 90},
+			{x: new Date(2016, 10, 1), y: 80},
+			{x: new Date(2016, 11, 1), y: 70}
+
+		]
+	},
+  {
+		// yValueFormatString: "#,### Units",
+		// xValueFormatString: "MMM",
+		type: "spline",
+    showInLegend: true,
+		name: "Jembatan",
+		dataPoints: [
+			{x: new Date(2016, 00, 1), y: 10},
+			{x: new Date(2016, 01, 1), y: 20},
+			{x: new Date(2016, 02, 1), y: 30},
+			{x: new Date(2016, 03, 1), y: 40},
+			{x: new Date(2016, 04, 1), y: 50},
+			{x: new Date(2016, 05, 1), y: 60},
+			{x: new Date(2016, 06, 1), y: 70},
+			{x: new Date(2016, 07, 1), y: 80},
+			{x: new Date(2016, 08, 1), y: 90},
+			{x: new Date(2016, 09, 1), y: 10},
+			{x: new Date(2016, 10, 1), y: 20},
+			{x: new Date(2016, 11, 1), y: 30}
+
+		]
+	}]
+});
+
+var chart3 = new CanvasJS.Chart("pie_kec", {
+	animationEnabled: true,
+	data: [{
+		type: "pie",
+		startAngle: 240,
+    indexLabelPlacement: "inside",
+		percentFormatString: "#0.##",
+    indexLabelFontSize: 12,
+    indexLabelFontColor: '#fff',
+		// indexLabel: "{label} {y}",
+    indexLabel: "#percent%",
+		dataPoints: <%- JSON.stringify(kecamatan) %>
+	}]
+});
+
+var chart4 = new CanvasJS.Chart("pie_pekerjaan", {
+	animationEnabled: true,
+	data: [{
+		type: "pie",
+		startAngle: 240,
+    indexLabelPlacement: "inside",
+    indexLabelOrientation: "vertical",
+		percentFormatString: "#0.##",
+    indexLabelFontSize: 12,
+    indexLabelFontColor: '#fff',
+		// indexLabel: "{label} {y}",
+    indexLabel: "#percent%",
+		dataPoints: <%- JSON.stringify(jenis) %>
+	}]
+});
+
+let datakec = <%- JSON.stringify(kecamatan)%>;
+let datakectersurvey =[]
+datakec.forEach(function(item){
+  datakectersurvey.push({label: item.label, y: Number(item.tersurvey)})
+})
+console.log(datakectersurvey)
+var chart5 = new CanvasJS.Chart("usulan_kec", {
+	animationEnabled: true,
+	axisX:{
+    labelFontSize: 14,
+  },
+
+  axisY:{
+    labelFontSize: 14,
+  },
+	toolTip:{
+   shared: true,
+ },
+	// data: [{
+	// 	type: "column",
+	// 	dataPoints:datakec
+	// }]
+  data: [{
+		type: "column",
+		name: "Jumlah Usulan",
+		// legendText: "Proven Oil Reserves",
+		showInLegend: true, 
+		dataPoints:datakec
+	},
+	{
+		type: "column",	
+		name: "Jumlah Usulan Tersurvey",
+		// legendText: "Oil Production",
+		// axisYType: "secondary",
+		showInLegend: true,
+		dataPoints:datakectersurvey
+	}]
+});
+
+var chart6 = new CanvasJS.Chart("usulan_kel", {
+	animationEnabled: true,
+	axisX:{
+    labelFontSize: 14,
+    interval: 1
+  },
+
+  axisY:{
+    labelFontSize: 14,
+  },
+	
+	data: [{
+		type: "column",
+		dataPoints:[
+
+		]
+	}]
+});
+
+
+
+// var chart7 = new CanvasJS.Chart("usulan_kec_setuju", {
+// 	animationEnabled: true,
+// 	axisX:{
+//     labelFontSize: 14,
+//   },
+
+//   axisY:{
+//     labelFontSize: 14,
+//   },
+	
+// 	data: [{
+// 		type: "column",
+// 		dataPoints:[
+//     { label: datakec[0].label, y: Number(datakec[0].tersurvey) },
+//       { label: datakec[1].label, y: Number(datakec[1].tersurvey) },
+//       { label: datakec[2].label, y: Number(datakec[2].tersurvey) },
+//       { label: datakec[3].label, y: Number(datakec[3].tersurvey) }
+// 		]
+// 	}]
+// });
+
+var chart8 = new CanvasJS.Chart("usulan_kel_setuju", {
+	animationEnabled: true,
+	axisX:{
+    labelFontSize: 14,
+  },
+
+  axisY:{
+    labelFontSize: 14,
+  },
+	
+	data: [{
+		type: "column",
+		dataPoints:[
+			{ label: "Saudi", y: 266.21 },
+			{ label: "Venezuela", y: 302.25 },
+			{ label: "Iran", y: 157.20 },
+			{ label: "Iraq", y: 148.77 },
+			{ label: "Kuwait", y: 101.50 },
+			{ label: "UAE", y: 97.8 }
+		]
+	}]
+});
+
+
+
+chart1.render();
+// chart2.render();
+chart3.render();
+chart4.render();
+chart5.render();
+chart6.render();
+// chart7.render();
+chart8.render();
+
+
+
+$('#konten-usulan-kel').hide();
+$(".detail-kel").click(function(){
+  let kec= $(this).attr('kecnya')
+  $('#konten-usulan-kel').show();
+  // chart6.options.data[0].dataPoints 
+  $.getJSON( "/kegiatan/kel_resume/"+kec+"/"+$('#tahun').val(), function( data ) {
+    chart6.options.data[0].dataPoints = data;
+    chart6.render();
+//  console.log(data)
+});
+  $('html, body').animate({
+      scrollTop: $("#konten-usulan-kel").offset().top
+    }, 1000);
+});
+
+
+$('#konten-usulan-kel-setuju').hide();
+$(".detail-kel-setuju").click(function(){
+  let kec= $(this).attr('kecnya')
+  $('#konten-usulan-kel-setuju').show();
+  $.getJSON( "/kegiatan/kel_resume_setuju/"+kec+"/"+$('#tahun').val(), function( data ) {
+    data.forEach(function(dt, idx){
+      if(!dt.y){
+        data[idx].y=0
+      }else{
+        data[idx].y = Number(dt.y)
+      }
+    })
+    chart8.options.data[0].dataPoints = data;
+    chart8.render();
+//  console.log(data)
+});
+  $('html, body').animate({
+      scrollTop: $("#konten-usulan-kel-setuju").offset().top
+    }, 1000);
+});
+
+</script>

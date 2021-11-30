@@ -9,8 +9,8 @@ const upload = require('express-fileupload')
 app.use(upload())
 app.use(morgan('dev'))
 
-app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({limit: '50mb', extended: false,parameterLimit: 500000 }))
+app.use(express.json({ limit: '150mb' }))
+app.use(express.urlencoded({limit: '150mb', extended: false,parameterLimit: 1500000 }))
 app.use(cors())
 app.set('view engine', 'ejs');
 app.use(express.static('assets'));

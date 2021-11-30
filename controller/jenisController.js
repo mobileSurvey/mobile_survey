@@ -4,29 +4,50 @@ const jenis = require('../model/jenisModel')
 
 class Controller{
     static listAll(req, res){
-      res.render('content-backoffice/masterJenis/list');    
+        jenis.findAll()
+        .then(respon=>{
+            console.log(respon)
+            res.render('content-backoffice/masterJenis/list', {respon, user: req.session.user});    
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+      
     }
 
     static insert(req, res){
-      res.render('content-backoffice/masterJenis/insert');       
+        
+      res.render('content-backoffice/masterJenis/insert',{user: req.session.user});       
     }
 
     static edit(req, res){
-      res.render('content-backoffice/masterJenis/edit');    
+        const{id}=req.params
+        jenis.findAll({
+            where:{
+                id :id
+            }
+        },{returning:true})
+        .then(respon=>{
+            res.render('content-backoffice/masterJenis/edit', {respon, user: req.session.user});  
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+       
     }
     
     static create(req, res){
-        const {jenis}= req.body
+        const post= req.body
         jenis.findAll({
             where:{
-                jenis:jenis
+                jenis:post.jenis
             }
         }).then(data=>{
             if(data.length){
                 res.json({message :"data sudah ada"})
             }
             else{
-                jenis.create({jenis:jenis}, {returning: true}).then(respon =>{
+                jenis.create({jenis:post.jenis}, {returning: true}).then(respon =>{
                     res.json(respon)
                  })
                  .catch(err=>{
@@ -34,8 +55,29 @@ class Controller{
                  })
             }
         })
-         
-        
+   
+      }
+
+      static submit_insert(req, res){
+        const post = req.body
+        jenis.findAll({
+            where:{
+                jenis:post.jenis
+            }
+        }).then(data=>{
+            if(data.length){
+                res.json({message :"data sudah ada"})
+            }
+            else{
+                jenis.create({jenis:post.jenis}, {returning: true}).then(respon =>{
+                    res.redirect('/jenis/list')
+                 })
+                 .catch(err=>{
+                     res.json(err)
+                 })
+            }
+        })
+   
       }
 
       static list(req,res){
@@ -85,6 +127,28 @@ class Controller{
 
     }
 
+    static submit_edit(req,res){
+      
+        const post= req.body
+        
+        jenis.update({
+            jenis:post.jenis
+        },{
+            where :{
+                id:req.body.id
+            },
+            returning: true,
+            plain:true
+        })
+        .then(respon=>{
+            res.redirect('/jenis/list')
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+
+    }
+
 
     static delete(req,res){
         const{id}= req.params
@@ -93,7 +157,7 @@ class Controller{
                 id: id
             }
         }).then(respon=>{
-            res.json(`berhasil delete id : ${id}`)
+            res.redirect('/jenis/list')
             
         })
         .catch(err=>{
