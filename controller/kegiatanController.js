@@ -9,6 +9,9 @@ const ssh = require('../model/sshModel')
 var dbgeo = require("dbgeo");
 var wkx = require('wkx');
 const sharp = require('sharp');
+const kegiatan2 = require('../model/kegiatanModel2')
+
+
 class Controller{
     static exportExcel(req, res){
         let where = {}
@@ -206,7 +209,7 @@ class Controller{
         res.json(kel)
       }
 
-      static submit_insert(req, res){
+    static submit_insert(req, res){
         //   console.log(req.files.foto1)
         if(req.body['xe'] && req.body['ye']){
             req.body['SHAPE'] = { type: 'Point', coordinates: [req.body['xe'],req.body['ye']]};
@@ -245,15 +248,20 @@ class Controller{
           }
          
      }
-       
+ 
         kegiatan.create(req.body).then(respon =>{
-            console.log(respon)
-            res.redirect('/kegiatan/list')
+            kegiatan2.create(req.body).then(respon2=>{
+                res.redirect('/kegiatan/list')
+            })
+            
          })
          .catch(err=>{
              res.json(err)
          })
       }
+
+
+
     static submit_edit(req, res){
         if(req.body['xe'] && req.body['ye']){
             req.body['SHAPE'] = { type: 'Point', coordinates: [req.body['xe'],req.body['ye']]};
@@ -305,13 +313,29 @@ class Controller{
             plain:true
         })
         .then(respon=>{
-            console.log(respon)
-            res.redirect('/kegiatan/list')
+            // console.log(respon)
+            // res.redirect('/kegiatan/list')
+            if(req.session.user.role=='Surveyor'){
+                 res.redirect('/kegiatan/list')
+            }
+            else{
+                // kegiatan2.update(req.body,{
+                //     where:{
+                //         id:req.body.id
+                //     }
+                // })
+            }
         })
         .catch(err=>{
             res.json(err,'abc')
         })
     }
+
+
+
+
+
+
     static async update_status(req, res){
         await   kegiatan.update({approval: req.params.approval},{
             where :{
@@ -620,8 +644,13 @@ class Controller{
 
                 kegiatan.bulkCreate(hasil,{returning:true})
                 .then(data=>{
-                    del(['./assets/excel/'+namafile])
-                   res.redirect('/kegiatan/list')
+                    kegiatan2.bulkCreate(hasil,{returning:true})
+                    .then(data2=>{
+                        del(['./assets/excel/'+namafile])
+                        res.redirect('/kegiatan/list')
+                    })
+                   
+                   
                 })
                 .catch(err=>{
                     res.json(err)
@@ -677,8 +706,11 @@ class Controller{
 
                 kegiatan.bulkCreate(hasil,{returning:true})
                 .then(data=>{
+                   kegiatan2.bulkCreate(hasil,{returning:true})
+                   .then(data2=>{
                     del(['./assets/excel/'+namafile])
-                   res.redirect('/kegiatan/list')
+                    res.redirect('/kegiatan/list')
+                   })
                 })
                 .catch(err=>{
                     res.json(err)

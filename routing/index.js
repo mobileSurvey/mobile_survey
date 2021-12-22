@@ -8,6 +8,7 @@ const importData = require('./importData')
 const dashboard = require('../controller/dashboard')
 const content = require('./content')
 const dewan = require('./dewan')
+const waktu = require('./waktu')
 
 router.use('/',content)
 router.use('/user',users)
@@ -17,6 +18,7 @@ router.use('/dewan',dewan)
 router.use('/kegiatan',kegiatan)
 router.use('/importData',importData)
 router.use('/contoh',contoh)
+router.use('/waktu',waktu)
 
 
 
