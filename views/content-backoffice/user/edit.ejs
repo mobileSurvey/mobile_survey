@@ -32,6 +32,7 @@
 
                 <%if(user.role=='Admin'){%>
                 <div class="form-group">
+                  <%if(respon[0].role!='Dewan'){%>
                   <label>Kecamatan</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -54,7 +55,7 @@
                     </div>
                   </div>
                 </div>
-                <%}%>
+                <%}}%>
 
                 <div class="form-group">
                   <label>Role</label>
@@ -63,7 +64,21 @@
                       <select name="role" id="" class="form-control" data-search="true">
                         <option value="Admin" <%=(respon[0].role=='Admin')?'selected':''%>>Admin</option>
                         <option value="Surveyor" <%=(respon[0].role=='Surveyor')?'selected':''%>>Surveyor</option>
-                    </select>
+                        <option value="Dewan" <%=(respon[0].role=='Dewan')?'selected':''%>>Dewan</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Dewan</label>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                      <select name="dewanId" id="" class="form-control" data-search="true">
+                        <% for(let i=0; i < dewan.length; i++) {%>
+                          <option value="<%= dewan[i].id%>" <%=(respon[0].dewanId==dewan[i].id)?'selected':''%>><%= dewan[i].nama%></option>
+                          <% } %>
+                      </select>
                     </div>
                   </div>
                 </div>

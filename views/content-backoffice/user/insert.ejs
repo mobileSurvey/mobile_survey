@@ -66,9 +66,24 @@
                   <label>Role</label>
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select name="role" id="" class="form-control" data-search="true">
+                      <select name="role" id="role" class="form-control" data-search="true">
                         <option value="Admin">Admin</option>
                         <option value="Surveyor">Surveyor</option>
+                        <option value="Dewan">Dewan</option>
+                    </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group" id="konten-dewan">
+                  <label>Dewan</label>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                      <select name="dewanId" id="" class="form-control" data-search="true">
+                        <option value="">-- Pilih --</option>
+                        <% for(var i=0; i<dewan.length; i++){%>
+                          <option value="<%= dewan[i].id%>"><%= dewan[i].nama%></option>
+                          <%}%>
                     </select>
                     </div>
                   </div>
@@ -95,6 +110,26 @@
 
 <%- include('../../template-backoffice/footer.ejs'); -%>
 <script type="text/javascript">
+ $ ('#konten-dewan').hide();
+
+$('#role').change(function(){
+    if ($(this).val() == '') {
+          $('#konten-dewan').hide();
+    }
+
+    if ($(this).val() == 'Admin') {
+          $('#konten-dewan').hide();
+    } 
+
+    if ($(this).val() == 'Surveyor') {
+          $('#konten-dewan').hide();
+    }    
+
+    if ($(this).val() == 'Dewan') {
+          $('#konten-dewan').show();
+    }    
+});
+
   $('#kec').change(function(){
       $('#kel').empty()
           $.get( "/kegiatan/kel/"+$(this).val(), function( data ) {

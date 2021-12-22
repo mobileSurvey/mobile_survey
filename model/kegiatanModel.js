@@ -90,6 +90,10 @@ const kegiatan = sq.define('kegiatan',{
         type:DataTypes.STRING,
         defaultValue:""
     },
+    cp:{
+        type:DataTypes.STRING,
+        defaultValue:""
+    },
     tahun:{
         type:DataTypes.INTEGER
     },

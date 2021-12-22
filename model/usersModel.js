@@ -33,8 +33,18 @@ const Users = sq.define('Users',{
 {
 paranoid:true
 });
-Users.belongsTo(dewan)
-dewan.hasMany(Users)
+Users.belongsTo(dewan,{
+    foreignKey: {
+      allowNull: true,
+      defaultValue: null
+    },constraints: false
+  })
+dewan.hasMany(Users,{
+    foreignKey: {
+      allowNull: true,
+      defaultValue: null
+    },constraints: false
+  })
 
 Users.sync({ alter: true })
 module.exports = Users

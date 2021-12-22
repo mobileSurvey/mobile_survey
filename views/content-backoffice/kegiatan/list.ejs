@@ -47,7 +47,7 @@
                             <label>Tahun</label>
                             <select name="" id="tahun" class="form-control" data-search="true">
                   
-                              <% for(let i=2021; i <2051; i++) {%>
+                              <% for(let i=2020; i <2051; i++) {%>
                                 <option value="<%= i%>"><%= i%></option>
                                 <% } %>
                             </select>
@@ -164,6 +164,7 @@
         <div class="form-group">
           <label>Kecamatan</label>
           <select class="form-control" name="" id="kecExport" data-search="true">
+            <option value="">Semua</option>
             <% for(let i=0; i < kec.length; i++) {%>
               <option value="<%= kec[i].nama_kecamatan%>"><%= kec[i].nama_kecamatan%></option>
               <% } %>
@@ -173,9 +174,31 @@
           <label>Kelurahan</label>
           
           <select class="form-control" name="" id="kelExport" data-search="true">
-            <option value="">-- Pilih --</option>
+            <option value="">Semua</option>
           </select>
       </div>
+
+      <div class="form-group">
+        <label>Dewan</label>
+        
+        <select name="" id="dewanExport" class="form-control" data-search="true">
+          <option value="">-- Semua Dewan --</option>
+          <% for(let i=0; i < dewan.length; i++) {%>
+            <option value="<%= dewan[i].id%>"><%= dewan[i].nama%></option>
+            <% } %>
+      </select>
+      </div>
+
+    <div class="form-group">
+      <label>Persetujuan ?</label>
+      
+        <select class="form-control" name="" id="approvalExport" data-search="true">
+          <option value="">Semua</option>
+          <option value="1">Disetujui</option>
+          <option value="0">Belum Disetujui</option>
+          <option value="2">Ditolak</option>
+        </select>
+    </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
         <!-- <button type="button" class="btn btn-primary">Export</button> -->
@@ -233,13 +256,13 @@ $('#kecExport').change(function(){
 
   function goo(){
     // location.href = `/kegiatan/export_excel?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`;
-    window.open(`/kegiatan/export_excel?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`);
+    window.open(`/kegiatan/export_excel?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}&dewanId=${$('#dewanExport').val()}&approval=${$('#approvalExport').val()}`);
 
   }
 
   function gooPDF(){
     // location.href = `/kegiatan/cetak_laporan?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`;
-    window.open(`/kegiatan/cetak_laporan?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}`);
+    window.open(`/kegiatan/cetak_laporan?kec=${$('#kecExport').val()}&kel=${$('#kelExport').val()}&dewanId=${$('#dewanExport').val()}&approval=${$('#approvalExport').val()}`);
 
   }
 
@@ -305,21 +328,26 @@ $('#kecExport').change(function(){
                { "data": "approval", render: function(datane, type, row){
                 <%if(user.role=='Admin'){%>
                  let r = '<select  onChange="asas(\''+row.id+'\', this)">'
-                 if(datane){
-                   r+="<option value='0'>Tidak</option><option value='1' selected>Ya</option>"
+                 if(datane==1){
+                   r+="<option value='0'>Belum</option><option value='1' selected>Ya</option><option value='2'>Tidak</option>"
            
-                 }else{
-                  r+="<option value='0' selected>Tidak</option><option value='1'>Ya</option>"
+                 }else if(datane==2){
+                   r+="<option value='0'>Belum</option><option value='1'>Ya</option><option value='2' selected>Tidak</option>"
+           
+                 }else  if(datane==0){
+                   r+="<option value='0' selected>Belum</option><option value='1'>Ya</option><option value='2'>Tidak</option>"
            
                  }
                  
                  r+="</select>"
                  return r
                  <%}else{%>
-                  if(datane){
+                  if(datane==1){
                    return 'Ya'
+                 }else if(datane==2){
+                   return 'Tidak'
                  }else{
-                  return 'Tidak'
+                  return 'Belum'
                  }
                  <%}%>
                } },

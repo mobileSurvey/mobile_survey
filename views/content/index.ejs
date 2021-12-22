@@ -2159,6 +2159,8 @@ function detilkec(kec){
                     layer.on("click", function (e) {
 
                           var popupContent = "Jenis Kegiatan : "+layer.feature.properties.jenis;
+                          popupContent += `<br>Kelurahan : ${layer.feature.properties.kel}`
+
                           popupContent += `<br>Nama Anggaran : ${layer.feature.properties.kegiatanPrioritas}`
                           popupContent += `<br>Jumlah Anggaran : ${numberWithCommas(layer.feature.properties.jumlahAnggaran)}`
                           popupContent += `<br><br><center><img src="/foto/${layer.feature.properties.foto1}" style="width:160px"></center>`

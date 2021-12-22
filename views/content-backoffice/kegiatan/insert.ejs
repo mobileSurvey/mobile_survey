@@ -148,6 +148,9 @@
                   </div>
                 </div>
                 <%}%>
+                <%if(user.role=='Dewan'){%>
+                  <input type="hidden" name="dewanId" value="<%=user.dewanId%>">
+                  <%}%>
                 <div class="form-group">
                   <label>Keterangan</label>
                   <div class="row">

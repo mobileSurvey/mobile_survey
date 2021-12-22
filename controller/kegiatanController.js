@@ -18,7 +18,13 @@ class Controller{
         if(req.query.kel){
             where.kel = req.query.kel
         }
-     
+        if(req.query.dewanId){
+            where.dewanId = req.query.dewanId
+        }
+        if(req.query.approval){
+            where.approval = req.query.approval
+        }
+        console.log(where);
         kegiatan.findAll({
             where:where,
             include: { model: jenis }
@@ -64,7 +70,12 @@ class Controller{
         if(req.query.kel){
             where.kel = req.query.kel
         }
-     
+        if(req.query.dewanId){
+            where.dewanId = req.query.dewanId
+        }
+        if(req.query.approval){
+            where.approval = req.query.approval
+        }
         kegiatan.findAll({
             where:where,
             include: { model: jenis }
@@ -90,7 +101,7 @@ class Controller{
         //     res.json(err)
         // })
         let kec = await sq.query("SELECT nama_kecamatan, id_kecamatan FROM `master_kecamatan`", { type: QueryTypes.SELECT }); 
-        let dewan = await sq.query("SELECT nama, id FROM `dewans`", { type: QueryTypes.SELECT }); 
+        let dewan = await sq.query("SELECT nama, id FROM `dewans` where deletedAt is null", { type: QueryTypes.SELECT }); 
         res.render('content-backoffice/kegiatan/list',{kec, user: req.session.user, dewan});    
  
     }
@@ -112,6 +123,9 @@ class Controller{
         if(req.session.user.role=='Surveyor'){
                 where.kel = req.session.user.kelurahan
         }
+        if(req.session.user.role=='Dewan'){
+            where.dewanId = req.session.user.dewanId
+    }
         kegiatan.findAll({
             where:where,
             include: { model: jenis }
@@ -355,15 +369,15 @@ class Controller{
         },{returning:true})
         .then(respon=>{
      
-            // if(respon[0].foto1){
-            //     respon[0].foto1 =  Controller.base64_encode(respon[0].foto1)
-            // }
-            // if(respon[0].foto2){
-            //     respon[0].foto2 =  Controller.base64_encode(respon[0].foto2)
-            // }
-            // if(respon[0].foto3){
-            //     respon[0].foto3 =  Controller.base64_encode(respon[0].foto3)
-            // }
+            if(respon[0].foto1){
+                respon[0].foto1 =  Controller.base64_encode(respon[0].foto1)
+            }
+            if(respon[0].foto2){
+                respon[0].foto2 =  Controller.base64_encode(respon[0].foto2)
+            }
+            if(respon[0].foto3){
+                respon[0].foto3 =  Controller.base64_encode(respon[0].foto3)
+            }
             //  console.log(respon)
             res.json({respon})
         })
@@ -497,8 +511,10 @@ class Controller{
         })
 
     }
-
-    static insert(req,res){
+    static async listDitolak(req, res) {
+        res.render('content-backoffice/kegiatan/list_ditolak', { user: req.session.user });
+    }
+    static insertApp(req,res){
         // console.log('abcd')
     
         const post= req.body
@@ -531,7 +547,7 @@ class Controller{
             delete post['foto3']
         }
     
-        kegiatan.insert(post,{
+        kegiatan.create(post,{
             returning: true,
             plain:true
         })
@@ -575,7 +591,14 @@ class Controller{
                 let result =  await importExcel({
                     sourceFile :'./assets/excel/'+namafile,
                     header     :   {rows:3},
-                    columnToKey:{B:'kegiatanPrioritas',C:'lokasi',D:'volume',E:'satuan', F:'jumlahAnggaran',G:'pelaksana',I:'jeniId'},
+                    columnToKey:{
+                        B:'kegiatanPrioritas',
+                        C:'lokasi',
+                        D:'volume',
+                        E:'satuan',
+                         F:'jumlahAnggaran',
+                         G:'pelaksana',
+                         I:'jeniId'},
                     sheets :['Sheet1']
                     
                 });
@@ -585,6 +608,63 @@ class Controller{
                     var o = Object.assign({}, el);
                     o.kec = req.body.kec;
                     o.kel = req.body.kel;
+                    if(req.body.dewanId){
+                        o.dewanId = req.body.dewanId;
+                    }
+                    
+                    o.tahun = req.body.tahun;
+                    o.volume2 = o.volume;
+                    o.jumlahAnggaran2 = o.jumlahAnggaran;
+                    return o;
+                  })
+
+                kegiatan.bulkCreate(hasil,{returning:true})
+                .then(data=>{
+                    del(['./assets/excel/'+namafile])
+                   res.redirect('/kegiatan/list')
+                })
+                .catch(err=>{
+                    res.json(err)
+                })
+                
+                
+            }
+        }))
+    }
+
+    static insertExcelDewan(req,res){
+      
+        let file = req.files.excelFile;
+        let namafile = Date.now() + file.name
+        
+
+        file.mv('./assets/excel/'+namafile,(async err=>{
+            if(err){
+                res.json(err)
+            }
+            else{
+                let result =  await importExcel({
+                    sourceFile :'./assets/excel/'+namafile,
+                    header     :   {rows:3},
+                    columnToKey:{
+                        B:'kec',
+                        C:'kel',
+                        D:'kegiatanPrioritas',
+                        E:'lokasi',
+                        F:'volume',
+                        G:'satuan', 
+                        H:'jumlahAnggaran',
+                        I:'pelaksana',
+                        K:'jeniId'},
+                    sheets :['Sheet1']
+                
+                });
+              
+
+                var hasil = result.Sheet1.map(function(el) {
+                    var o = Object.assign({}, el);
+                    // o.kec = req.body.kec;
+                    // o.kel = req.body.kel;
                     if(req.body.dewanId){
                         o.dewanId = req.body.dewanId;
                     }
@@ -637,6 +717,49 @@ class Controller{
           })
     }
 
+    static async totalApproval(req, res){
+        kegiatan.findAll({
+            attributes: [[sq.fn('count', sq.col('id')), 'totalApproval']],
+            raw: true,
+            where:{
+                approval :1,
+                kel :req.params.kel,
+                tahun: req.params.tahun
+            }
+          }).then(respon=>{
+              res.json(respon)
+          })
+    }
+
+    static async totalTersurvey(req, res){
+        kegiatan.findAll({
+            attributes: [[sq.fn('count', sq.col('id')), 'totalTersurvey']],
+            raw: true,
+            where:{
+                SHAPE: {
+                    [Op.ne]: null
+                  },
+                kel :req.params.kel,
+                tahun: req.params.tahun
+            }
+          }).then(respon=>{
+              res.json(respon)
+          })
+    }
+
+    static async totalKegiatan(req, res){
+        kegiatan.findAll({
+            attributes: [[sq.fn('count', sq.col('id')), 'totalKegiatan']],
+            raw: true,
+            where:{
+                kel :req.params.kel,
+                tahun: req.params.tahun
+            }
+          }).then(respon=>{
+              console.log(respon)
+              res.json(respon)
+          })
+    }
     static async totalApprovalDewan(req, res){
         kegiatan.findAll({
             attributes: [[sq.fn('count', sq.col('id')), 'totalApproval']],
@@ -680,9 +803,8 @@ class Controller{
               res.json(respon)
           })
     }
-
     static async peta(req, res){
-        let pet = await sq.query("SELECT asWkt(a.SHAPE) as geometry, b.jenis, a.kegiatanPrioritas, a.jumlahAnggaran, a.foto1 FROM kegiatans a join jenis b on a.jeniId = b.id where a.SHAPE IS NOT NULL and a.tahun="+req.params.tahun, { type: QueryTypes.SELECT }); 
+        let pet = await sq.query("SELECT asWkt(a.SHAPE) as geometry, b.jenis, a.kegiatanPrioritas, a.jumlahAnggaran, a.foto1, a.kel FROM kegiatans a join jenis b on a.jeniId = b.id where a.SHAPE IS NOT NULL and a.tahun="+req.params.tahun, { type: QueryTypes.SELECT }); 
      
         dbgeo.parse(pet,{  
             "outputFormat": "topojson",

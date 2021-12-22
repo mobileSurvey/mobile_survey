@@ -194,7 +194,7 @@
           <tbody>
             <tr>
               <td style="width: 33.33%;">
-                <table border="0" cellpadding="5" cellspacing="0" style="width:100%;border-collapse: collapse;">
+                <table border="0" cellpadding="3" cellspacing="0" style="width:100%;border-collapse: collapse;">
                   <tr>
                     <td style="width: 40%;">KECAMATAN</td>
                     <td style="width: 1%;">:</td>
@@ -204,7 +204,7 @@
               </td>
 
               <td style="width: 33.33%;">
-                <table border="0" cellpadding="5" cellspacing="0" style="width:100%;border-collapse: collapse;">
+                <table border="0" cellpadding="3" cellspacing="0" style="width:100%;border-collapse: collapse;">
                   <tr>
                     <td style="width: 40%;">KELURAHAN</td>
                     <td style="width: 1%;">:</td>
@@ -214,7 +214,7 @@
               </td>
 
               <td style="width: 33.33%;">
-                <table border="0" cellpadding="5" cellspacing="0" style="width:100%;border-collapse: collapse;">
+                <table border="0" cellpadding="3" cellspacing="0" style="width:100%;border-collapse: collapse;">
                   <tr>
                     <td style="width: 40%;">NO. USULAN</td>
                     <td style="width: 1%;">:</td>
@@ -227,7 +227,7 @@
         </table>
       </div>
       <div style="width: 100%;">
-        <table border="1" cellpadding="5" cellspacing="0" style="width:100%;border-collapse: collapse;">
+        <table border="1" cellpadding="3" cellspacing="0" style="width:100%;border-collapse: collapse;">
             <tbody>
                 <tr>
                     <td colspan="3" style="width: 33.33%;text-align: center;font-weight: bold;">LOKASI OBJEK PEMBANGUNAN</td>
@@ -238,8 +238,8 @@
                     <td style="width: 12.5%;">Nama Usulan</td>
                     <td style="width: 1%;border-left: hidden;border-right: hidden;">:</td>
                     <td><%= respon[0].kegiatanPrioritas%></td>
-                    <td rowspan="19"> <div style="width: 100%;height: 170mm;background-color: ;" id="map"></div></td>
-                    <td rowspan="9"><img src="/foto/<%= respon[0].foto1%>" style="width: 100%;height: 80mm;"></td>
+                    <td rowspan="18"> <div style="width: 100%;height: 160mm;background-color: ;" id="map"></div></td>
+                    <td rowspan="8"><img src="/foto/<%= respon[0].foto1%>" style="width: 100%;height: 70mm;"></td>
                 </tr>
                 <tr>
                     <td>Jenis</td>
@@ -294,7 +294,7 @@
                     <td>Volume</td>
                     <td style="border-left: hidden;border-right: hidden;">:</td>
                     <td><%= respon[0].volume%> <%= respon[0].satuan%></td>
-                    <td rowspan="9"><img src="/foto/<%= respon[0].foto2%>" style="width: 100%;height: 80mm;"></td>
+                    <td rowspan="8"><img src="/foto/<%= respon[0].foto2%>" style="width: 100%;height: 70mm;"></td>
                 </tr>
                 <tr>
                     <td>Total</td>
@@ -320,11 +320,6 @@
                     <td><%= respon[0].pelaksana%></td>
                 </tr>
                 <tr>
-                    <td>Keterangan Lain</td>
-                    <td style="border-left: hidden;border-right: hidden;">:</td>
-                    <td><%= respon[0].keterangan%></td>
-                </tr>
-                <tr>
                     <td>Disetujui</td>
                     <td style="border-left: hidden;border-right: hidden;">:</td>
                     <td><%= (respon[0].approval)?'Ya':'Tidak'%></td>
@@ -336,7 +331,20 @@
                 </tr>
             </tbody>
         </table>            
-    </div>
+      </div>
+
+      <div style="width: 100%;">
+        <table border="1" cellpadding="3" cellspacing="0" style="width:100%;border-collapse: collapse;">
+          <tbody>
+              <tr>
+                  <td style="width:12.5%;vertical-align: top;border-top: hidden;">Keterangan Lain</td>
+                  <td style="border-left:hidden;border-right:hidden;vertical-align: top;border-top: hidden;">:</td>
+                  <td style="border-top: hidden;"><%= respon[0].keterangan%></td>
+              </tr>
+              
+          </tbody>
+      </table>
+      </div>
     </page>
 
     <script type="text/javascript">
