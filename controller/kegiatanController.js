@@ -250,6 +250,10 @@ class Controller{
      }
  
         kegiatan.create(req.body).then(respon =>{
+            // console.log(respon)
+           
+            req.body.id_kegiatan=respon.dataValues.id
+            console.log(req.body)
             kegiatan2.create(req.body).then(respon2=>{
                 res.redirect('/kegiatan/list')
             })
@@ -315,15 +319,15 @@ class Controller{
         .then(respon=>{
             // console.log(respon)
             // res.redirect('/kegiatan/list')
-            if(req.session.user.role=='Surveyor'){
+            if(req.session.user.role=='Surveyor' || req.session.user.role=='Admin'){
                  res.redirect('/kegiatan/list')
             }
             else{
-                // kegiatan2.update(req.body,{
-                //     where:{
-                //         id:req.body.id
-                //     }
-                // })
+                kegiatan2.update(req.body,{
+                    where:{
+                        id_kegiatan:req.body.id
+                    }
+                })
             }
         })
         .catch(err=>{

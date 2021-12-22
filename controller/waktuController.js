@@ -33,10 +33,10 @@ class Controller{
         }})
         .then(hasil=>{
             if(hasil[0].waktuAwalDewan<=moment() && hasil[0].waktuAkhirDewan>=moment()){
-                res.json("sukses")
+                res.status(200).json({ status: 200, message: true})
             }
             else{
-                res.json("bukan waktu dewan")
+                res.status(200).json({ status: 200, message: false})
             }
             
         })
@@ -51,10 +51,10 @@ class Controller{
         }})
         .then(hasil=>{
             if(hasil[0].waktuAwalSurveyor<=moment() && hasil[0].waktuAkhirSurveyor>=moment()){
-                res.json("sukses")
+                res.status(200).json({ status: 200, message: true})
             }
             else{
-                res.json("bukan waktu surveyor")
+                res.status(200).json({ status: 200, message: false})
             }
             
         })

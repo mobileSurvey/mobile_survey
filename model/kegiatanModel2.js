@@ -106,6 +106,9 @@ const kegiatan2 = sq.define('kegiatan2',{
     },
     PETA:{
         type:DataTypes.GEOMETRY
+    },
+    id_kegiatan:{
+        type:DataTypes.INTEGER
     }
     
 },
