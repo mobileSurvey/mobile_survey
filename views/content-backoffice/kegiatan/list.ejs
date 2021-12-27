@@ -23,7 +23,10 @@
         <div class="panel-header header-line">
           <div class="row">
             <div class="col-md-6 col-lg-6">
-              <a class="btn btn-primary btn-embossed" href="/kegiatan/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
+              <%if(user.role=='Dewan' || user.role=='Admin'){%>
+                <a class="btn btn-primary btn-embossed" href="/kegiatan/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
+            
+            <%}%>
               <%if(user.role=='Admin'){%>
               <a class="btn btn-info btn-embossed" href="/importData/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Import</a>
           <%}%>

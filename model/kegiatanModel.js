@@ -100,6 +100,10 @@ const kegiatan = sq.define('kegiatan',{
     approval:{
         type:DataTypes.INTEGER,
         defaultValue:0
+    }, 
+    tersurvey:{
+        type:DataTypes.INTEGER,
+        defaultValue:0
     },
     SHAPE:{
         type:DataTypes.GEOMETRY
