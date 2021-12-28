@@ -25,7 +25,7 @@
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                       <div class='input-group date datetimepicker1' id=''>
-                        <input type='text' class="form-control" name="waktuAwalDewan" value="<%=hasil[0].waktuAwalDewan%>"/>
+                        <input type='text' class="form-control" name="waktuAwalDewan" <%if(user.role!='Admin'){%> disabled<%}%> value="<%=hasil[0].waktuAwalDewan%>"/>
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                       <div class='input-group date datetimepicker1' id=''>
-                        <input type='text' class="form-control" name="waktuAkhirDewan" />
+                        <input type='text' class="form-control" name="waktuAkhirDewan" value="<%=hasil[0].waktuAkhirDewan%>" <%if(user.role!='Admin'){%> disabled<%}%>/>
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -47,7 +47,7 @@
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                       <div class='input-group date datetimepicker1' id=''>
-                        <input type='text' class="form-control" name="waktuAwalSurveyor" />
+                        <input type='text' class="form-control" name="waktuAwalSurveyor" value="<%=hasil[0].waktuAwalSurveyor%>" <%if(user.role!='Admin'){%> disabled<%}%>/>
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                       <div class='input-group date datetimepicker1'  id=''>
-                        <input type='text' class="form-control" name='waktuAkhirSurveyor'/>
+                        <input type='text' class="form-control" name='waktuAkhirSurveyor' value="<%=hasil[0].waktuAkhirSurveyor%>" <%if(user.role!='Admin'){%> disabled<%}%>/>
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -63,8 +63,9 @@
                     </div>
                   </div>
                 </div>
-
+                <%if(user.role=='Admin'){%>
                 <button type="submit" class="btn btn-primary btn-embossed">Simpan</button>
+                <%}%>
               </div>
             </div>
           </form>

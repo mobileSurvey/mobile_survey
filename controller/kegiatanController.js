@@ -118,7 +118,7 @@ class Controller{
             tahun: req.params.tahun
         }
         console.log(req.query)
-        if(req.query.status!='x'){
+        if(req.query.status!='x' &&req.query.status!='undefined'){
             where.approval = req.query.status
          }
         if(req.query.kec&&req.query.kec!='null'&&req.query.kec!='undefined'){
