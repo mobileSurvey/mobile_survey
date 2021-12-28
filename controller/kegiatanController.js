@@ -148,7 +148,8 @@ class Controller{
     static async insert(req, res){
         let kec = await sq.query("SELECT nama_kecamatan, id_kecamatan FROM `master_kecamatan`", { type: QueryTypes.SELECT }); 
         let jenisPekerjaan = await jenis.findAll();
-        res.render('content-backoffice/kegiatan/insert',{kec,jenisPekerjaan, user: req.session.user});   
+        let data =  await ssh.findAll()
+        res.render('content-backoffice/kegiatan/insert',{kec,jenisPekerjaan,ssh:data, user: req.session.user});   
       }   
     
 
