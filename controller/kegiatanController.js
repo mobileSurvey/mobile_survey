@@ -10,7 +10,7 @@ var dbgeo = require("dbgeo");
 var wkx = require('wkx');
 const sharp = require('sharp');
 const kegiatan2 = require('../model/kegiatanModel2')
-
+const waktu = require('./waktuController')
 
 class Controller{
     static exportExcel(req, res){
@@ -103,9 +103,13 @@ class Controller{
         // .catch(err=>{
         //     res.json(err)
         // })
+        // console.log(waktu.checkWaktuDewanf(),'xx');
+        let waktuDewan = await waktu.checkWaktuDewanf()
+        // console.log(waktuDewan);
+        let waktuSurveyor = await waktu.checkWaktuSurveyorf()
         let kec = await sq.query("SELECT nama_kecamatan, id_kecamatan FROM `master_kecamatan`", { type: QueryTypes.SELECT }); 
         let dewan = await sq.query("SELECT nama, id FROM `dewans` where deletedAt is null", { type: QueryTypes.SELECT }); 
-        res.render('content-backoffice/kegiatan/list',{kec, user: req.session.user, dewan});    
+        res.render('content-backoffice/kegiatan/list',{kec, user: req.session.user, dewan, waktuDewan,waktuSurveyor});    
  
     }
 
@@ -114,6 +118,9 @@ class Controller{
             tahun: req.params.tahun
         }
         console.log(req.query)
+        if(req.query.status!='x'){
+            where.approval = req.query.status
+         }
         if(req.query.kec&&req.query.kec!='null'&&req.query.kec!='undefined'){
             where.kec = req.query.kec
          }

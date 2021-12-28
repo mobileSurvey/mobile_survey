@@ -23,7 +23,7 @@
         <div class="panel-header header-line">
           <div class="row">
             <div class="col-md-6 col-lg-6">
-              <%if(user.role=='Dewan' || user.role=='Admin'){%>
+              <%if((user.role=='Dewan' && waktuDewan) || user.role=='Admin'){%>
                 <a class="btn btn-primary btn-embossed" href="/kegiatan/insert" role="button"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Data</a>
             
             <%}%>
@@ -99,6 +99,19 @@
                             <label>Kelurahan</label>
                             <select name="kel" id="kel" class="form-control" data-search="true">
                                 <option value="">-- Semua Kelurahan --</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" id="status" class="form-control" data-search="true">
+                              <option value="x">Semua</option>
+                                <option value="0">Belum diproses</option>
+                                <option value="1">Disetujui</option>
+                                <option value="2">Ditolak</option>
                             </select>
                           </div>
                         </div>
@@ -219,12 +232,16 @@
 function numberWithCommas(x) {
 		  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 		}
- $.get( "/kegiatan/kel/"+$('#kec').val(), function( data ) {
+    // console.log($('#kec').val());
+  if($('#kec').val()){
+    $.get( "/kegiatan/kel/"+$('#kec').val(), function( data ) {
            data.forEach(element => {
             $('#kel').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
            });
            $('#kel').val(data[0].nama_kelurahan).trigger('change');
         });
+  }
+
 
 
 $('#kec').change(function(){
@@ -238,12 +255,15 @@ $('#kec').change(function(){
         });
     })
 
-    $.get( "/kegiatan/kel/"+$('#kecExport').val(), function( data ) {
+    if($('#kecExport').val()){
+      $.get( "/kegiatan/kel/"+$('#kecExport').val(), function( data ) {
            data.forEach(element => {
             $('#kelExport').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
            });
            $('#kelExport').val(data[0].nama_kelurahan).trigger('change');
         });
+    }
+
 
 
 $('#kecExport').change(function(){
@@ -288,9 +308,15 @@ $('#kecExport').change(function(){
       },
   
       "processing": true,
-           "ajax": "/kegiatan/list_json/"+$('#tahun').val(),
+           "ajax": "/kegiatan/list_json/"+$('#tahun').val()+"?status=x",
            "columns": [
-               { "data": null},
+           {
+                        "data": null,
+                        render: function (data, type, row, meta) {
+                              //  console.log(meta);
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
                { "data": "kegiatanPrioritas" },
                { "data": "jeni", render: function(datane){
                  if(datane){
@@ -372,18 +398,23 @@ $('#kecExport').change(function(){
               //  }},
            
                { "data": "id", render: function(id){
-                  return ` <center>
-                 <ul class="list-inline">
+                 let t="";
+                <%if((user.role=='Surveyor' && waktuSurveyor)||(user.role=='Dewan' && waktuDewan) || user.role=='Admin'){%>
+                   t =` <ul class="list-inline">
                    <li><a class="btn btn-warning btn-embossed btn-sm" href="/kegiatan/edit/${id}" role="button" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
                    <li class="separator">|</li>
                   <li><a class="btn btn-danger btn-embossed btn-sm" href="/kegiatan/delete/${id}" role="button" onclick="return confirm('Apakah anda yakin untuk menghapus data ini ?');"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
-                  <li class="separator">|</li>
+                  <li class="separator">|</li>`
+                  <%}%>
+                 
+                  return ` <center>
+                    ${t}
                    <li><a class="btn btn-info btn-embossed btn-sm" href="/kegiatan/cetak/${id}" role="button" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a></li>
                 </ul>
                 </center>`
                }}
          ],
-         "deferRender": true,
+        // "deferRender": true,
          // "ordering": false,
         //  "columnDefs": [
         //      { "width": "3%" },
@@ -395,11 +426,11 @@ $('#kecExport').change(function(){
     
         //      { "width": "20%" }
         //   ],
-         "fnRowCallback": function( row, data, iDisplayIndex ) {
-                   var index = iDisplayIndex +1;
-                   $('td:eq(0)',row).html(index);
-                   return row;
-         },
+        //  "fnRowCallback": function( row, data, iDisplayIndex ) {
+        //            var index = iDisplayIndex +1;
+        //            $('td:eq(0)',row).html(index);
+        //            return row;
+        //  },
     //   "columnDefs": [
     //       { "width": "100px", "targets": 14}
     //   ],
@@ -412,16 +443,17 @@ alert(data.status)
       console.log(a, b.value)
 };
 
-  $('#tahun, #kec, #kel, #dewan').change(function(){
-    let tambahan = ""
+  $('#tahun, #kec, #kel, #dewan, #status').change(function(){
+    let tambahan = "?status="+$('#status').val();
     if($('#kec').val()!=""){
-      tambahan += `?kec=${$('#kec').val()}&kel=${$('#kel').val()}&dewan=${$('#dewan').val()}`
+      tambahan += `&kec=${$('#kec').val()}&kel=${$('#kel').val()}&dewan=${$('#dewan').val()}`
     }
     if($('#kec').val()==""&&$('#dewan').val()!=""&&$('#dewan').val()!='undefined'){
-      tambahan += `?dewan=${$('#dewan').val()}`
+      tambahan += `&dewan=${$('#dewan').val()}`
     }
+  
     t.ajax.url( `/kegiatan/list_json/${$('#tahun').val()}${tambahan}` ).load();
   })
   $('#tahun').val(2022)
-  t.ajax.url( `/kegiatan/list_json/${$('#tahun').val()}` ).load();
+  t.ajax.url( `/kegiatan/list_json/${$('#tahun').val()}?status=x` ).load();
 </script>
