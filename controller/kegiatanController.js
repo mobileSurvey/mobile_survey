@@ -167,7 +167,14 @@ class Controller{
             let wkt = await sq.query(`SELECT asWkt(SHAPE) as wkt FROM kegiatans where id=${req.params.id}`, { type: QueryTypes.SELECT }); 
             let wkt2 = await sq.query(`SELECT asWkt(PETA) as wkt2 FROM kegiatans where id=${req.params.id}`, { type: QueryTypes.SELECT }); 
            let data =  await ssh.findAll()
-           res.render('content-backoffice/kegiatan/edit', {respon, kec, kel, jenisPekerjaan, wkt, wkt2, ssh:data, user: req.session.user}); 
+           
+           kegiatan2.findAll({where:{
+               id:req.params.id
+           }})
+           .then(respon2=>{
+            res.render('content-backoffice/kegiatan/edit', {respon,respon2, kec, kel, jenisPekerjaan, wkt, wkt2, ssh:data, user: req.session.user}); 
+           })
+           
             // res.json(wkt)
         })
         .catch(err=>{
