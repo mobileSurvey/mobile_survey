@@ -30,7 +30,6 @@ class Controller{
         let data = await connection.query("select kel as label, count(id) as y from kegiatans where deletedAt is NULL and kec='"+req.params.kec+"' group by kel", { type: QueryTypes.SELECT }); 
         
         res.json(data)
-        
        }
 
        static async kegiatan_by_kel(req, res){
