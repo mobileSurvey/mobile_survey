@@ -252,7 +252,7 @@ class Controller{
         kegiatan.create(req.body).then(respon =>{
             // console.log(respon)
            
-            req.body.id_kegiatan=respon.dataValues.id
+            req.body.id=respon.dataValues.id
             console.log(req.body)
             kegiatan2.create(req.body).then(respon2=>{
                 res.redirect('/kegiatan/list')
@@ -325,7 +325,7 @@ class Controller{
             else{
                 kegiatan2.update(req.body,{
                     where:{
-                        id_kegiatan:req.body.id
+                        id:req.body.id
                     }
                 })
             }
@@ -542,6 +542,7 @@ class Controller{
     static async listDitolak(req, res) {
         res.render('content-backoffice/kegiatan/list_ditolak', { user: req.session.user });
     }
+    
     static insertApp(req,res){
         // console.log('abcd')
     
@@ -580,7 +581,20 @@ class Controller{
             plain:true
         })
         .then(respon=>{
-            res.json(respon)
+            // res.json(respon)
+            if(post["role"]=="Dewan"){
+                kegiatan2.create(post,{
+                    returning:true,
+                    plain:true
+                })
+                .then(respon2=>{
+                    req.body = req.body.filter(el=>el.role !=="Dewan")
+                    res.json(respon2)
+                })
+            }
+            else{
+                res.json(respon)
+            }
         })
         .catch(err=>{
             res.json(err)

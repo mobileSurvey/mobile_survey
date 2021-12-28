@@ -8,7 +8,6 @@ const kegiatan2 = sq.define('kegiatan2',{
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
     },
     kegiatanPrioritas:{
         type:DataTypes.STRING,
@@ -107,9 +106,6 @@ const kegiatan2 = sq.define('kegiatan2',{
     PETA:{
         type:DataTypes.GEOMETRY
     },
-    id_kegiatan:{
-        type:DataTypes.INTEGER
-    }
     
 },
 {
