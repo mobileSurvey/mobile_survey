@@ -22,7 +22,13 @@ class Controller {
             }
         })
             .then(hasil => {
-        res.render('content-backoffice/jadwalBukaTutup/edit', { user: req.session.user, hasil });
+                let hasil2={}
+                hasil2.waktuAwalDewan=moment(hasil[0].dataValues.waktuAwalDewan).format('YYYY-MM-DD HH:mm:ss')
+                hasil2.waktuAkhirDewan=moment(hasil[0].dataValues.waktuAkhirDewan).format('YYYY-MM-DD HH:mm:ss')
+                hasil2.waktuAwalSurveyor=moment(hasil[0].dataValues.waktuAwalSurveyor).format('YYYY-MM-DD HH:mm:ss')
+                hasil2.waktuAkhirSurveyor=moment(hasil[0].dataValues.waktuAkhirSurveyor).format('YYYY-MM-DD HH:mm:ss')
+        res.render('content-backoffice/jadwalBukaTutup/edit', { user: req.session.user, hasil2 });
+       
             })
 
     }
