@@ -667,16 +667,11 @@ class Controller{
                     o.jumlahAnggaran2 = o.jumlahAnggaran;
                     return o;
                   })
-
+                  console.log(hasil)
                 kegiatan.bulkCreate(hasil,{returning:true})
                 .then(data=>{
-                    kegiatan2.bulkCreate(hasil,{returning:true})
-                    .then(data2=>{
                         del(['./assets/excel/'+namafile])
                         res.redirect('/kegiatan/list')
-                    })
-                   
-                   
                 })
                 .catch(err=>{
                     res.json(err)
@@ -729,10 +724,15 @@ class Controller{
                     o.jumlahAnggaran2 = o.jumlahAnggaran;
                     return o;
                   })
-
+                //   console.log(hasil)
                 kegiatan.bulkCreate(hasil,{returning:true})
                 .then(data=>{
-                   kegiatan2.bulkCreate(hasil,{returning:true})
+                    let hasil2=[]
+                    for(let i=0;i<data.length;i++){
+                        hasil2.push(data[i].dataValues)
+                    }
+                    console.log(hasil2)
+                   kegiatan2.bulkCreate(hasil2,{returning:true})
                    .then(data2=>{
                     del(['./assets/excel/'+namafile])
                     res.redirect('/kegiatan/list')
