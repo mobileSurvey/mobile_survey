@@ -89,26 +89,30 @@ class Controller {
     }
 
     static checkWaktuDewanf() {
-        waktu.findAll({
-            where: {
-                id: 1
-            }
+        return new Promise((ya, tdk)=>{
+            waktu.findAll({
+                where: {
+                    id: 1
+                }
+            })
+                .then(hasil => {
+                    if (hasil[0].waktuAwalDewan <= moment() && hasil[0].waktuAkhirDewan >= moment()) {
+                       ya(true)
+                    }
+                    else {
+                        ya(false)
+                    }
+    
+                })
+                .catch(err => {
+                    tdk(err)
+                })
         })
-            .then(hasil => {
-                if (hasil[0].waktuAwalDewan <= moment() && hasil[0].waktuAkhirDewan >= moment()) {
-                    return true;
-                }
-                else {
-                    return false
-                }
-
-            })
-            .catch(err => {
-                return err
-            })
+       
     }
 
     static checkWaktuSurveyorf() {
+        return new Promise((ya, tdk)=>{
         waktu.findAll({
             where: {
                 id: 1
@@ -116,16 +120,17 @@ class Controller {
         })
             .then(hasil => {
                 if (hasil[0].waktuAwalSurveyor <= moment() && hasil[0].waktuAkhirSurveyor >= moment()) {
-                    return true
+                    ya(true)
                 }
                 else {
-                    return false
+                    ya(false)
                 }
 
             })
             .catch(err => {
-                return err
+                tdk(err)
             })
+        })
     }
 }
 

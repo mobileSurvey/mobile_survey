@@ -18,7 +18,7 @@
       <div class="tab tab-light clearfix"> 
       <ul class="nav nav-tabs" role="tablist">
         <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 14px;">DATA KEGIATAN</span></a></li>
-        <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 14px;">DETAIL KEGIATAN</span></a></li>
+        <%if(user.role=='Admin' && respon2.length){%> <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 14px;">HISTORY INPUT DEWAN</span></a></li><%}%>
         <!-- <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><img src="/images/template/instagram.png" style="width: 20px;">&nbsp;<span class="font-custom" style="font-size: 14px;">INSTAGRAM</span></a></li> -->
       </ul>
       <!-- Tab panes -->
@@ -293,7 +293,7 @@
             </div>
           </div>
         </div>
-
+        <%if(user.role=='Admin' && respon2.length){%>
         <div role="tabpanel" class="tab-pane fade" id="tab2-2">
           <div class="panel">
             <div class="panel-content">
@@ -305,106 +305,106 @@
                         <tr>
                           <td style="width: 200px;">Kegiatan</td>
                           <td style="width: 10px;">:</td>
-                          <td><%= respon[0].kegiatanPrioritas%></td>
+                          <td><%= respon2[0].kegiatanPrioritas%></td>
                         </tr>
   
                         <tr>
                           <td>Lokasi</td>
                           <td>:</td>
-                          <td><%= respon[0].lokasi%></td>
+                          <td><%= respon2[0].lokasi%></td>
                         </tr>
   
                         <tr>
                           <td>Tahun Anggaran</td>
                           <td>:</td>
-                          <td><%= respon[0].tahun%></td>
+                          <td><%= respon2[0].tahun%></td>
                         </tr>
   
                         <tr>
                           <td>Jenis Pekerjaan</td>
                           <td>:</td>
-                          <td><%= respon[0].jenisId%></td>
+                          <td><%= respon2[0].jenisId%></td>
                         </tr>
   
                         <tr>
                           <td>Kecamatan</td>
                           <td>:</td>
-                          <td><%= respon[0].nama_kecamatan%></td>
+                          <td><%= respon2[0].nama_kecamatan%></td>
                         </tr>
   
                         <tr>
                           <td>Kelurahan</td>
                           <td>:</td>
-                          <td><%= respon[0].nama_kelurahan%></td>
+                          <td><%= respon2[0].nama_kelurahan%></td>
                         </tr>
   
                         <tr>
                           <td>SSH</td>
                           <td>:</td>
-                          <td><%= respon[0].ssh%></td>
+                          <td><%= respon2[0].ssh%></td>
                         </tr>
   
                         <tr>
                           <td>Harga Satuan</td>
                           <td>:</td>
-                          <td><%= respon[0].hargaSatuan%></td>
+                          <td><%= respon2[0].hargaSatuan%></td>
                         </tr>
   
                         <tr>
                           <td>Volume Survey</td>
                           <td>:</td>
-                          <td><%= respon[0].volume%></td>
+                          <td><%= respon2[0].volume%></td>
                         </tr>
                         <%if(user.role=='Admin'){%>
                         <tr>
                           <td>Volume (Sebelumnya)</td>
                           <td>:</td>
-                          <td><%= respon[0].volume2%></td>
+                          <td><%= respon2[0].volume2%></td>
                         </tr>
                         <%}%>
   
                         <tr>
                           <td>Satuan</td>
                           <td>:</td>
-                          <td><%= respon[0].satuan%></td>
+                          <td><%= respon2[0].satuan%></td>
                         </tr>
   
                         <tr>
                           <td>Jenis Anggaran</td>
                           <td>:</td>
-                          <td><%= respon[0].jenisAnggaran%></td>
+                          <td><%= respon2[0].jenisAnggaran%></td>
                         </tr>
   
                         <tr>
                           <td>Jumlah Anggaran</td>
                           <td>:</td>
-                          <td><%= respon[0].jumlahAnggaran%></td>
+                          <td><%= respon2[0].jumlahAnggaran%></td>
                         </tr>
                         <%if(user.role=='Admin'){%>
                         <tr>
                           <td>Jumlah Anggaran (Sebelumnya)</td>
                           <td>:</td>
-                          <td><%= respon[0].jumlahAnggaran2%></td>
+                          <td><%= respon2[0].jumlahAnggaran2%></td>
                         </tr>
                         <%}%>
   
                         <tr>
                           <td>Pelaksana</td>
                           <td>:</td>
-                          <td><%= respon[0].pelaksana%></td>
+                          <td><%= respon2[0].pelaksana%></td>
                         </tr>
                         <%if(user.role=='Admin'){%>
                         <tr>
                           <td>Kesesuaian dengan PERWALI</td>
                           <td>:</td>
-                          <td>respon[0].kesesuaian</td>
+                          <td>respon2[0].kesesuaian</td>
                         </tr>
                         <%}%>
   
                         <tr>
                           <td>Keterangan</td>
                           <td>:</td>
-                          <td><%= respon[0].keterangan%></td>
+                          <td><%= respon2[0].keterangan%></td>
                         </tr>
                       </tbody>
                     </table>
@@ -419,19 +419,19 @@
                         <td>Foto 1</td>
                       </tr>
                       <tr>
-                        <td><center><img src="/foto/<%= respon[0].foto1%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
+                        <td><center><img src="/foto/<%= respon2[0].foto1%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
                       </tr>
                       <tr>
                         <td>Foto 2</td>
                       </tr>
                       <tr>
-                        <td><center><img src="/foto/<%= respon[0].foto2%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
+                        <td><center><img src="/foto/<%= respon2[0].foto2%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
                       </tr>
                       <tr>
                         <td>Foto 3</td>
                       </tr>
                       <tr>
-                        <td><center><img src="/foto/<%= respon[0].foto3%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
+                        <td><center><img src="/foto/<%= respon2[0].foto3%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
                       </tr>
                     </tbody>
                   </table>
@@ -440,6 +440,7 @@
             </div>
           </div>
         </div>
+        <%}%>
       </div>
       </div>
       
