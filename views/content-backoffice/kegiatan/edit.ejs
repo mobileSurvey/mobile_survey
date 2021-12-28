@@ -15,274 +15,434 @@
 
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="panel">
-        <div class="panel-content">
-          <form role="form" action="/kegiatan/submit_edit" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<%= respon[0].id%>">
-            koordinat survey
-            <input type="text" name="xe" id="xe" value="<%= (respon[0].SHAPE)?respon[0].SHAPE.coordinates[0]:''%>">
-            <input type="text" name="ye" id="ye" value="<%= (respon[0].SHAPE)?respon[0].SHAPE.coordinates[1]:''%>">
-            <input type="hidden" name="PETA" id="peta" value="<%= (wkt2[0].wkt2)?wkt2[0].wkt2:''%>">
-            <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div style="width: 100%;height: 500px;" id="map"></div>
-              </div>
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 30px;">
-                <div class="form-group">
-                  <label>Kegiatan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="kegiatanPrioritas" id="" value="<%= respon[0].kegiatanPrioritas%>">
-                    </div>
+      <div class="tab tab-light clearfix"> 
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#tab2-1" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 14px;">DATA KEGIATAN</span></a></li>
+        <li><a href="#tab2-2" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><span class="font-custom" style="font-size: 14px;">DETAIL KEGIATAN</span></a></li>
+        <!-- <li><a href="#tab2-3" data-toggle="tab" aria-expanded="false" style="padding: 15px;"><img src="/images/template/instagram.png" style="width: 20px;">&nbsp;<span class="font-custom" style="font-size: 14px;">INSTAGRAM</span></a></li> -->
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content" style="margin-top: 0px;padding: 0;margin:0;">
+        <div role="tabpanel" class="tab-pane fade active in" id="tab2-1">
+          <div class="panel">
+            <div class="panel-content">
+              <form role="form" action="/kegiatan/submit_edit" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<%= respon[0].id%>">
+                koordinat survey
+                <input type="text" name="xe" id="xe" value="<%= (respon[0].SHAPE)?respon[0].SHAPE.coordinates[0]:''%>">
+                <input type="text" name="ye" id="ye" value="<%= (respon[0].SHAPE)?respon[0].SHAPE.coordinates[1]:''%>">
+                <input type="hidden" name="PETA" id="peta" value="<%= (wkt2[0].wkt2)?wkt2[0].wkt2:''%>">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div style="width: 100%;height: 500px;" id="map"></div>
                   </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Lokasi</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="lokasi" id="" value="<%= respon[0].lokasi%>">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 30px;">
+                    <div class="form-group">
+                      <label>Kegiatan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="kegiatanPrioritas" id="" value="<%= respon[0].kegiatanPrioritas%>">
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Tahun Anggaran</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select name="tahun" id="tahun" class="form-control" data-search="true">
-                        <% for(let i=2021; i <2051; i++) {%>
-                          <option value="<%= i%>" <%= (respon[0].tahun==i)?'selected':''%>><%= i%></option>
-                          <% } %>
-                      </select>
+    
+                    <div class="form-group">
+                      <label>Lokasi</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="lokasi" id="" value="<%= respon[0].lokasi%>">
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Jenis Pekerjaan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select name="jeniId" id="" class="form-control" data-search="true">
-               
-                        <% for(let i=0; i < jenisPekerjaan.length; i++) {%>
-                          <option value="<%= jenisPekerjaan[i].id%>" <%= (respon[0].jeniId==jenisPekerjaan[i].id)?'selected':''%>><%= jenisPekerjaan[i].jenis%></option>
-                          <% } %>
-                      </select>
+                    <div class="form-group">
+                      <label>Tahun Anggaran</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <select name="tahun" id="tahun" class="form-control" data-search="true">
+                            <% for(let i=2021; i <2051; i++) {%>
+                              <option value="<%= i%>" <%= (respon[0].tahun==i)?'selected':''%>><%= i%></option>
+                              <% } %>
+                          </select>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-            
-                <div class="form-group">
-                  <label>Kecamatan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select name="kec" id="kec" class="form-control" data-search="true">
-                        <option value="">-- Pilih --</option>
-                        <% for(let i=0; i < kec.length; i++) {%>
-                          <option value="<%= kec[i].nama_kecamatan%>" <%= (respon[0].kec==kec[i].nama_kecamatan)?'selected':''%>><%= kec[i].nama_kecamatan%></option>
-                          <% } %>
-                    </select>
+                    <div class="form-group">
+                      <label>Jenis Pekerjaan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <select name="jeniId" id="" class="form-control" data-search="true">
+                   
+                            <% for(let i=0; i < jenisPekerjaan.length; i++) {%>
+                              <option value="<%= jenisPekerjaan[i].id%>" <%= (respon[0].jeniId==jenisPekerjaan[i].id)?'selected':''%>><%= jenisPekerjaan[i].jenis%></option>
+                              <% } %>
+                          </select>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Kelurahan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <select class="form-control" name="kel" id="kel" data-search="true">
+                
+                    <div class="form-group">
+                      <label>Kecamatan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <select name="kec" id="kec" class="form-control" data-search="true">
                             <option value="">-- Pilih --</option>
+                            <% for(let i=0; i < kec.length; i++) {%>
+                              <option value="<%= kec[i].nama_kecamatan%>" <%= (respon[0].kec==kec[i].nama_kecamatan)?'selected':''%>><%= kec[i].nama_kecamatan%></option>
+                              <% } %>
                         </select>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>SSH</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <select class="form-control" name="ssh" id="ssh" data-search="true">
-                          <option value="">-- Pilih --</option>
-                          <% for(let i=0; i < ssh.length; i++) {%>
-                            <option value="<%= ssh[i].id%>" harga="<%= ssh[i].harga%>" satuan="<%= ssh[i].satuan%>" <%= (respon[0].sshId==ssh[i].id)?'selected':''%>><%= ssh[i].nama%></option>
-                            <% } %>
-                        </select>
+    
+                    <div class="form-group">
+                      <label>Kelurahan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <select class="form-control" name="kel" id="kel" data-search="true">
+                                <option value="">-- Pilih --</option>
+                            </select>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Harga Satuan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="hargaSatuan" id="hargaSatuan" value="<%= respon[0].hargaSatuan%>">
+    
+                    <div class="form-group">
+                      <label>SSH</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <select class="form-control" name="ssh" id="ssh" data-search="true">
+                              <option value="">-- Pilih --</option>
+                              <% for(let i=0; i < ssh.length; i++) {%>
+                                <option value="<%= ssh[i].id%>" harga="<%= ssh[i].harga%>" satuan="<%= ssh[i].satuan%>" <%= (respon[0].sshId==ssh[i].id)?'selected':''%>><%= ssh[i].nama%></option>
+                                <% } %>
+                            </select>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                <div id="ukuran">
+                    <div class="form-group">
+                      <label>Harga Satuan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="hargaSatuan" id="hargaSatuan" value="<%= respon[0].hargaSatuan%>">
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div id="ukuran">
+                   
+                      <div class="form-group">
+                        <label>Panjang (m) - gunakan . (titik) jika terdapat angka decimal</label>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <input type="text" class="form-control" name="panjang" id="panjang" value="<%= respon[0].panjang%>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Lebar (m) - gunakan . (titik) jika terdapat angka decimal</label>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <input type="text" class="form-control" name="lebar" id="lebar" value="<%= respon[0].lebar%>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Tinggi (m) - isi dengan angaka 0 jika tidak ada tinggi (m2)</label>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <input type="text" class="form-control" name="tinggi" id="tinggi" value="<%= respon[0].tinggi%>">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Volume Survey</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="volume" id="volume" value="<%= respon[0].volume%>">
+                        </div>
+                      </div>
+                    </div>
+                    <%if(user.role=='Admin'){%>
+                    <div class="form-group">
+                      <label>Volume (sebelumnya)</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="volume2" id="" value="<%= respon[0].volume2%>">
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
+                    <div class="form-group">
+                      <label>Satuan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="satuan" id="satuan" value="<%= respon[0].satuan%>">
+                        </div>
+                      </div>
+                    </div>
                
-                  <div class="form-group">
-                    <label>Panjang (m) - gunakan . (titik) jida terdapat angka decimal</label>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" class="form-control" name="panjang" id="panjang" value="<%= respon[0].panjang%>">
+                    <div class="form-group">
+                      <label>Jenis Anggaran</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <select class="form-control" name="jenisAnggaran" id="">
+                            <option value="APBD" <%= (respon[0].jenisAnggaran=='APBD')?'selected':''%>>APBD</option>
+                              <option value="DAUT" <%= (respon[0].jenisAnggaran=='DAUT')?'selected':''%>>Alokasi Dana Kelurahan (DAUT/APBN)</option>
+                              <option value="APBDKEL" <%= (respon[0].jenisAnggaran=='APBDKEL')?'selected':''%>>Alokasi Dana Kelurahan (APBD)</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Lebar (m) - gunakan . (titik) jida terdapat angka decimal</label>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" class="form-control" name="lebar" id="lebar" value="<%= respon[0].lebar%>">
+    
+                    <div class="form-group">
+                      <label>Jumlah Anggaran</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="jumlahAnggaran" id="jumlahAnggaran" value="<%= respon[0].jumlahAnggaran%>">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Tinggi (m) - isi dengan angaka 0 jika tidak ada tinggi (m2)</label>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" class="form-control" name="tinggi" id="tinggi" value="<%= respon[0].tinggi%>">
+                    <%if(user.role=='Admin'){%>
+                    <div class="form-group">
+                      <label>Jumlah Anggaran (sebelumnya)</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="jumlahAnggaran2" id="" value="<%= respon[0].jumlahAnggaran2%>">
+                        </div>
                       </div>
                     </div>
+                    <%}%>
+                    <div class="form-group">
+                      <label>Pelaksana</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="text" class="form-control" name="pelaksana" id="" value="<%= respon[0].pelaksana%>">
+                        </div>
+                      </div>
+                    </div>
+                    <%if(user.role=='Admin'){%>
+                    <div class="form-group">
+                      <label>Kesesuaian Dengan PERWALI</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <select class="form-control" name="kesesuaian" id="">
+                            <option value="0" <%= (respon[0].kesesuaian=='0')?'selected':''%>>Tidak Sesuai</option>
+                              <option value="1" <%= (respon[0].kesesuaian=='1')?'selected':''%>>Sesuai</option>
+                              
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
+                    <div class="form-group">
+                      <label>Keterangan</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <textarea name="keterangan"  class="form-control" id="" rows="10"><%= respon[0].keterangan%></textarea>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="form-group">
+                      <label>Foto 1</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="file" class="form-control" name="foto1" id="">
+                          <img src="/foto/<%= respon[0].foto1%>" alt="Foto Tidak Ada" style="width:200px">
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="form-group">
+                      <label>Foto 2</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="file" class="form-control" name="foto2" id="">
+                          <img src="/foto/<%= respon[0].foto2%>" alt="Foto Tidak Ada" style="width:200px">
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="form-group">
+                      <label>Foto 3</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <input type="file" class="form-control" name="foto3" id="">
+                          <img src="/foto/<%= respon[0].foto3%>" alt="Foto Tidak Ada" style="width:200px">
+                        </div>
+                      </div>
+                    </div>
+                    <%if(user.role=='Admin'){%>
+                    <div class="form-group">
+                      <label>Disetujui?</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                          <select class="form-control" name="approval" id="">
+                            <option value="0" <%= (respon[0].approval=='0')?'selected':''%>>Tidak</option>
+                              <option value="1" <%= (respon[0].approval=='1')?'selected':''%>>Ya</option>
+                              
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
+                    <button type="submit" class="btn btn-primary btn-embossed">Simpan</button>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label>Volume Survey</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="volume" id="volume" value="<%= respon[0].volume%>">
-                    </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="tab2-2">
+          <div class="panel">
+            <div class="panel-content">
+              <div class="row">
+                <div class="col-md-7 col-lg-7">
+                  <div style="width: 100%;">
+                    <table class="table table-bordered table-striped">
+                      <tbody>
+                        <tr>
+                          <td style="width: 200px;">Kegiatan</td>
+                          <td style="width: 10px;">:</td>
+                          <td><%= respon[0].kegiatanPrioritas%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Lokasi</td>
+                          <td>:</td>
+                          <td><%= respon[0].lokasi%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Tahun Anggaran</td>
+                          <td>:</td>
+                          <td><%= respon[0].tahun%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Jenis Pekerjaan</td>
+                          <td>:</td>
+                          <td><%= respon[0].jenisId%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Kecamatan</td>
+                          <td>:</td>
+                          <td><%= respon[0].nama_kecamatan%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Kelurahan</td>
+                          <td>:</td>
+                          <td><%= respon[0].nama_kelurahan%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>SSH</td>
+                          <td>:</td>
+                          <td><%= respon[0].ssh%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Harga Satuan</td>
+                          <td>:</td>
+                          <td><%= respon[0].hargaSatuan%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Volume Survey</td>
+                          <td>:</td>
+                          <td><%= respon[0].volume%></td>
+                        </tr>
+                        <%if(user.role=='Admin'){%>
+                        <tr>
+                          <td>Volume (Sebelumnya)</td>
+                          <td>:</td>
+                          <td><%= respon[0].volume2%></td>
+                        </tr>
+                        <%}%>
+  
+                        <tr>
+                          <td>Satuan</td>
+                          <td>:</td>
+                          <td><%= respon[0].satuan%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Jenis Anggaran</td>
+                          <td>:</td>
+                          <td><%= respon[0].jenisAnggaran%></td>
+                        </tr>
+  
+                        <tr>
+                          <td>Jumlah Anggaran</td>
+                          <td>:</td>
+                          <td><%= respon[0].jumlahAnggaran%></td>
+                        </tr>
+                        <%if(user.role=='Admin'){%>
+                        <tr>
+                          <td>Jumlah Anggaran (Sebelumnya)</td>
+                          <td>:</td>
+                          <td><%= respon[0].jumlahAnggaran2%></td>
+                        </tr>
+                        <%}%>
+  
+                        <tr>
+                          <td>Pelaksana</td>
+                          <td>:</td>
+                          <td><%= respon[0].pelaksana%></td>
+                        </tr>
+                        <%if(user.role=='Admin'){%>
+                        <tr>
+                          <td>Kesesuaian dengan PERWALI</td>
+                          <td>:</td>
+                          <td>respon[0].kesesuaian</td>
+                        </tr>
+                        <%}%>
+  
+                        <tr>
+                          <td>Keterangan</td>
+                          <td>:</td>
+                          <td><%= respon[0].keterangan%></td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                </div>
-                <%if(user.role=='Admin'){%>
-                <div class="form-group">
-                  <label>Volume (sebelumnya)</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="volume2" id="" value="<%= respon[0].volume2%>">
-                    </div>
-                  </div>
-                </div>
-                <%}%>
-                <div class="form-group">
-                  <label>Satuan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="satuan" id="satuan" value="<%= respon[0].satuan%>">
-                    </div>
-                  </div>
-                </div>
-           
-                <div class="form-group">
-                  <label>Jenis Anggaran</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select class="form-control" name="jenisAnggaran" id="">
-                        <option value="APBD" <%= (respon[0].jenisAnggaran=='APBD')?'selected':''%>>APBD</option>
-                          <option value="DAUT" <%= (respon[0].jenisAnggaran=='DAUT')?'selected':''%>>Alokasi Dana Kelurahan (DAUT/APBN)</option>
-                          <option value="APBDKEL" <%= (respon[0].jenisAnggaran=='APBDKEL')?'selected':''%>>Alokasi Dana Kelurahan (APBD)</option>
-                      </select>
-                    </div>
-                  </div>
+                  
                 </div>
 
-                <div class="form-group">
-                  <label>Jumlah Anggaran</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="jumlahAnggaran" id="jumlahAnggaran" value="<%= respon[0].jumlahAnggaran%>">
-                    </div>
-                  </div>
+                <div class="col-md-5 col-lg-5">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td>Foto 1</td>
+                      </tr>
+                      <tr>
+                        <td><center><img src="/foto/<%= respon[0].foto1%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
+                      </tr>
+                      <tr>
+                        <td>Foto 2</td>
+                      </tr>
+                      <tr>
+                        <td><center><img src="/foto/<%= respon[0].foto2%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
+                      </tr>
+                      <tr>
+                        <td>Foto 3</td>
+                      </tr>
+                      <tr>
+                        <td><center><img src="/foto/<%= respon[0].foto3%>" alt="Foto Tidak Ada" style="width:200px"></center></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <%if(user.role=='Admin'){%>
-                <div class="form-group">
-                  <label>Jumlah Anggaran (sebelumnya)</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="jumlahAnggaran2" id="" value="<%= respon[0].jumlahAnggaran2%>">
-                    </div>
-                  </div>
-                </div>
-                <%}%>
-                <div class="form-group">
-                  <label>Pelaksana</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="text" class="form-control" name="pelaksana" id="" value="<%= respon[0].pelaksana%>">
-                    </div>
-                  </div>
-                </div>
-                <%if(user.role=='Admin'){%>
-                <div class="form-group">
-                  <label>Kesesuaian Dengan PERWALI</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select class="form-control" name="kesesuaian" id="">
-                        <option value="0" <%= (respon[0].kesesuaian=='0')?'selected':''%>>Tidak Sesuai</option>
-                          <option value="1" <%= (respon[0].kesesuaian=='1')?'selected':''%>>Sesuai</option>
-                          
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <%}%>
-                <div class="form-group">
-                  <label>Keterangan</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <textarea name="keterangan"  class="form-control" id="" rows="10"><%= respon[0].keterangan%></textarea>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Foto 1</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="file" class="form-control" name="foto1" id="">
-                      <img src="/foto/<%= respon[0].foto1%>" alt="Foto Tidak Ada" style="width:200px">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Foto 2</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="file" class="form-control" name="foto2" id="">
-                      <img src="/foto/<%= respon[0].foto2%>" alt="Foto Tidak Ada" style="width:200px">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Foto 3</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <input type="file" class="form-control" name="foto3" id="">
-                      <img src="/foto/<%= respon[0].foto3%>" alt="Foto Tidak Ada" style="width:200px">
-                    </div>
-                  </div>
-                </div>
-                <%if(user.role=='Admin'){%>
-                <div class="form-group">
-                  <label>Disetujui?</label>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <select class="form-control" name="approval" id="">
-                        <option value="0" <%= (respon[0].approval=='0')?'selected':''%>>Tidak</option>
-                          <option value="1" <%= (respon[0].approval=='1')?'selected':''%>>Ya</option>
-                          
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <%}%>
-                <button type="submit" class="btn btn-primary btn-embossed">Simpan</button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
+      </div>
+      
     </div>
   </div>
   <div class="footer">
@@ -298,6 +458,7 @@
 
 <%- include('../../template-backoffice/footer.ejs'); -%>
 <script type="text/javascript">
+  
  $.get( "/kegiatan/kel/"+$('#kec').val(), function( data ) {
            data.forEach(element => {
             $('#kel').append(`<option value="${element.nama_kelurahan}">${element.nama_kelurahan}</option>`)
@@ -1457,11 +1618,11 @@ function toWKT (layer) {
            
             });
             <%if(wkt[0].wkt){%>
-              $('#ukuran').hide()
+              // $('#ukuran').hide()
               peta_pemohon('<%= wkt[0].wkt%>', 1) 
               <%}%> 
               <%if(wkt2[0].wkt2){%>
-              $('#ukuran').show()
+              // $('#ukuran').show()
               peta_pemohon('<%= wkt2[0].wkt2%>',1) 
               <%}%> 
               
